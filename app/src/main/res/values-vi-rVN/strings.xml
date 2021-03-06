@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">Customer-Apps</string>
+    <string name="hello">Xin Chào</string>
+    <string name="sign_in">Đăng nhập</string>
+    <string name="sign_up">Đăng ký</string>
+    <string name="sign_in_fb">Đăng nhập với Facebook</string>
+    <string name="sign_in_gg">Đăng nhập với Google</string>
+    <string name="sign_in_phone">Đăng nhập với số điện thoại</string>
+</resources>

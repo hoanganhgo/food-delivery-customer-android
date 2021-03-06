@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">Customer-Apps</string>
+    <string name="hello">Hello</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_in_fb">Sign in wih Facebook</string>
+    <string name="sign_in_gg">Sign in with Google</string>
+    <string name="sign_in_phone">Sign in with phone number</string>
+</resources>
