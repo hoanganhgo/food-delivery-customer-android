@@ -6,4 +6,12 @@
     <string name="sign_in_fb">Sign in with Facebook</string>
     <string name="sign_in_gg">Sign in with Google</string>
     <string name="sign_in_phone">Sign in with phone number</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="use_phone_number_register">To use your phone number to register</string>
+    <string name="continue_word">Continue</string>
+    <string name="confirm_otp">Confirm OTP</string>
+    <string name="not_otp">Have you received OTP code?</string>
+    <string name="resend">Resend</string>
+    <string name="confirm">Confirm</string>
+    <string name="notify_phone_number">Phone number must be 10 characters</string>
 </resources>

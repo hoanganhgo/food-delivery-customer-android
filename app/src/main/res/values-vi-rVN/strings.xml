@@ -7,4 +7,12 @@
     <string name="sign_in_fb">Đăng nhập với Facebook</string>
     <string name="sign_in_gg">Đăng nhập với Google</string>
     <string name="sign_in_phone">Đăng nhập với số điện thoại</string>
+    <string name="phone_number">Số điện thoại</string>
+    <string name="use_phone_number_register">Sử dụng số điện thoại của bạn để đăng ký</string>
+    <string name="continue_word">Tiếp tục</string>
+    <string name="confirm_otp">Xác nhận OTP</string>
+    <string name="not_otp">Bạn chưa nhận được mã OTP?</string>
+    <string name="resend">Gửi lại</string>
+    <string name="confirm">Xác nhận</string>
+    <string name="notify_phone_number">Số điện thoại phải có 10 ký tự</string>
 </resources>
