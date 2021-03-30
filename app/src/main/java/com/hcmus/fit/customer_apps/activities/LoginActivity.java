@@ -1,7 +1,6 @@
 package com.hcmus.fit.customer_apps.activities;
 
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -11,19 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.hcmus.fit.customer_apps.R;
-import com.hcmus.fit.customer_apps.contants.Tag;
+import com.hcmus.fit.customer_apps.models.UserInfo;
+import com.hcmus.fit.customer_apps.networks.SignInNetwork;
+import com.hcmus.fit.customer_apps.utils.NetworkUtil;
+
+import static com.hcmus.fit.customer_apps.networks.SignInNetwork.googleSignInClient;
+
 
 public class LoginActivity extends AppCompatActivity {
     private static final int SIGN_IN_GOOGLE = 123;
@@ -32,8 +31,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnSignInGg;
     private Button btnSignInPhone;
     private Button btnSignUp;
-
-    private GoogleSignInClient googleSignInClient;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,18 +50,9 @@ public class LoginActivity extends AppCompatActivity {
         googleSignInClient = GoogleSignIn.getClient(this, gso);
 
         btnSignInFb.setOnClickListener(v -> {
-            if (isNetworkConnected()) {
+            if (NetworkUtil.isNetworkConnected(this)) {
                 Toast.makeText(v.getContext(), "Sign in with fb", Toast.LENGTH_LONG).show();
             }
-
-            RequestQueue queue = Volley.newRequestQueue(this);
-            String url = "https://api.github.com/search/users?q=vntalking";
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                    response -> Log.e(Tag.NETWORK, "onResponse: " + response),
-                    error -> Log.e(Tag.NETWORK, "onErrorResponse: " + error.getMessage()));
-
-            queue.add(stringRequest);
-
         });
 
         btnSignInGg.setOnClickListener(v -> {
@@ -79,7 +67,6 @@ public class LoginActivity extends AppCompatActivity {
 
         btnSignUp.setOnClickListener(v -> {
             Toast.makeText(v.getContext(), "Sign up", Toast.LENGTH_LONG).show();
-            signOut();
         });
     }
 
@@ -88,40 +75,49 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if (account != null) {
-            Log.d(Tag.GG, "OnStart Token: "+account.getIdToken());
-            Log.d(Tag.GG, "Display name: " + account.getDisplayName());
-            Log.d(Tag.GG, "Give Name: " + account.getGivenName());
-            Log.d(Tag.GG, "Family name: " + account.getFamilyName());
-            Log.d(Tag.GG, "Email: " + account.getEmail());
-            Log.d(Tag.GG,"Id: " + account.getId());
-            Log.d(Tag.GG,"photo: " + account.getPhotoUrl());
+            Log.d("google", "OnStart Token: "+account.getIdToken());
+            Log.d("google", "Display name: " + account.getDisplayName());
+            Log.d("google", "Give Name: " + account.getGivenName());
+            Log.d("google", "Family name: " + account.getFamilyName());
+            Log.d("google", "Email: " + account.getEmail());
+            Log.d("google","Id: " + account.getId());
+            Log.d("google","photo: " + account.getPhotoUrl());
+
+            UserInfo.getInstance()
+                    .withUserId(account.getId())
+                    .withFirstName(account.getFamilyName())
+                    .withLastName(account.getGivenName())
+                    .withEmail(account.getEmail())
+                    .withAvatar(account.getPhotoUrl().toString());
+
+            SignInNetwork.sendGGIdTokenToServer(this, account);
         }
 
-    }
-
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
     private void handleSignInResult(@NonNull Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
-            Log.d(Tag.GG, "handler token: " + idToken);
-            Log.d(Tag.GG, "Display name: " + account.getDisplayName());
-            Log.d(Tag.GG, "Give Name: " + account.getGivenName());
-            Log.d(Tag.GG, "Family name: " + account.getFamilyName());
-            Log.d(Tag.GG, "Email: " + account.getEmail());
-            Log.d(Tag.GG,"Id: " + account.getId());
-            Log.d(Tag.GG,"photo: " + account.getPhotoUrl());
+            Log.d("google", "handler token: " + idToken);
+            Log.d("google", "Display name: " + account.getDisplayName());
+            Log.d("google", "Give Name: " + account.getGivenName());
+            Log.d("google", "Family name: " + account.getFamilyName());
+            Log.d("google", "Email: " + account.getEmail());
+            Log.d("google","Id: " + account.getId());
+            Log.d("google","photo: " + account.getPhotoUrl());
+
+            UserInfo.getInstance()
+                    .withUserId(account.getId())
+                    .withFirstName(account.getFamilyName())
+                    .withLastName(account.getGivenName())
+                    .withEmail(account.getEmail())
+                    .withAvatar(account.getPhotoUrl().toString());
 
             // TODO(developer): send ID Token to server and validate
-
-            //updateUI(account);
+            SignInNetwork.sendGGIdTokenToServer(this, account);
         } catch (ApiException e) {
-            Log.w(Tag.GG, "handleSignInResult:error", e);
+            Log.w("google", "handleSignInResult:error", e);
             //updateUI(null);
         }
     }
@@ -129,17 +125,6 @@ public class LoginActivity extends AppCompatActivity {
     private void signIn() {
         Intent signInIntent = googleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, SIGN_IN_GOOGLE);
-    }
-
-    private void signOut() {
-        googleSignInClient.signOut()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-                        Log.d(Tag.GG, "Sign out GG success");
-                    }
-                });
     }
 
     @Override
@@ -150,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
         if (requestCode == SIGN_IN_GOOGLE) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
-            Log.d(Tag.GG, "Result Sign in google");
+            Log.d("google", "Result Sign in google");
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }

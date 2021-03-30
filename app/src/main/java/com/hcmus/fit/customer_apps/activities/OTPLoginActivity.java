@@ -31,7 +31,7 @@ public class OTPLoginActivity extends AppCompatActivity {
         btnResend = findViewById(R.id.btn_resend);
         btnConfirm = findViewById(R.id.btn_confirm);
 
-        btnBack.setOnClickListener(v -> super.onBackPressed());
+        btnBack.setOnClickListener(v -> onBackPressed());
         edtOTP[0].requestFocus();
 
         for (int i = 0; i < edtOTP.length; i++) {

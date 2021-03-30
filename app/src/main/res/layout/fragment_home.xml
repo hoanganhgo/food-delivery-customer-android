@@ -1,22 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.HomeFragment">
 
     <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
+        android:id="@+id/lb_address"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_gravity="start"
+        android:text="@string/label_address"
+        android:textSize="11sp" />
+
+    <Button
+        android:id="@+id/btn_search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="17dp"
+        android:layout_marginHorizontal="5dp"
+        android:paddingStart="10dp"
+        android:background="@drawable/bg_no_border"
+        android:textAlignment="textStart"
+        android:text="123 Nguyễn Văn Cừ, Phường 4, Quận 5, TP. Hồ Chí Minh"
+        android:fontFamily="@font/roboto_regular"
+        android:textAllCaps="false"
+        android:textSize="13sp"
+        android:textColor="@color/black"
+        android:drawableStart="@drawable/ic_address" />
+
+    <Button
+        android:id="@+id/sign_in_fb"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_search"
+        android:text="@string/search"
+        android:fontFamily="@font/roboto_regular"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textSize="13sp"
+        android:textColor="@color/grey"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="10dp"/>
+
+</LinearLayout>

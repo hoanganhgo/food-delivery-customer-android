@@ -15,4 +15,12 @@
     <string name="resend">Gửi lại</string>
     <string name="confirm">Xác nhận</string>
     <string name="notify_phone_number">Số điện thoại phải có 10 ký tự</string>
+    <string name="home">Trang Chủ</string>
+    <string name="bill">Hoá Đơn</string>
+    <string name="favorite">Yêu Thích</string>
+    <string name="notifications">Thông Báo</string>
+    <string name="setting">Cài Đặt</string>
+    <string name="notify_sign_out">Đăng xuất thành công</string>
+    <string name="label_address">Địa chỉ</string>
+    <string name="search">Tìm kiếm món ăn, thức uống và mọi thứ</string>
 </resources>
