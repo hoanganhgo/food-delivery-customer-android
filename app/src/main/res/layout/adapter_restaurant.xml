@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="130dp"
+    android:layout_height="160dp"
+    android:layout_marginHorizontal="5dp"
+    android:background="@drawable/bg_btn_transparent">
+
+    <Button
+        android:id="@+id/btn_restaurant"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_btn_transparent"/>
+
+    <ImageView
+        android:id="@+id/iv_avatar_restaurant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/avatar_restaurant"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        android:id="@+id/tv_restaurant_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_avatar_restaurant"
+        android:layout_marginHorizontal="5dp"
+        android:text="Quán cơm mẹ nấu Quán cơm mẹ nấu "
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:maxLines="2"
+        android:fontFamily="@font/roboto_regular"/>
+
+    <TextView
+        android:id="@+id/tv_big_sale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_avatar_restaurant"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="35dp"
+        android:text="Big Sale"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_regular"
+        android:background="@drawable/bg_btn_primary"/>
+
+</RelativeLayout>

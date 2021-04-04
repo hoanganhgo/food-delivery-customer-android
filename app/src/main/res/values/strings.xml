@@ -23,4 +23,12 @@
     <string name="notify_sign_out">Sign Out Success</string>
     <string name="label_address">Address</string>
     <string name="search">Search for food, drinks and everything</string>
+    <string name="dish_rice">Rice</string>
+    <string name="dish_snacks">Snacks</string>
+    <string name="dish_drinks">Drinks</string>
+    <string name="dish_soup">Soup</string>
+    <string name="dish_sale">Sale</string>
+    <string name="dish_free_ship">Free ship</string>
+    <string name="big_sale">Big Sale</string>
+    <string name="view_more">View more</string>
 </resources>

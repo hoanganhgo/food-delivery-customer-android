@@ -23,4 +23,12 @@
     <string name="notify_sign_out">Đăng xuất thành công</string>
     <string name="label_address">Địa chỉ</string>
     <string name="search">Tìm kiếm món ăn, thức uống và mọi thứ</string>
+    <string name="dish_rice">Cơm</string>
+    <string name="dish_snacks">Ăn vặt</string>
+    <string name="dish_drinks">Đồ uống</string>
+    <string name="dish_soup">Món ăn nước</string>
+    <string name="dish_sale">Giảm giá</string>
+    <string name="dish_free_ship">Miễn phí giao hàng</string>
+    <string name="big_sale">Siêu Ưu Đãi</string>
+    <string name="view_more">Xem thêm</string>
 </resources>
