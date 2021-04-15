@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="85dp"
+    android:layout_marginVertical="5dp">
+
+    <Button
+        android:id="@+id/btn_restaurant"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:background="@drawable/bg_restaurant_v"/>
+
+    <ImageView
+        android:id="@+id/iv_avatar_restaurant"
+        android:layout_width="135dp"
+        android:layout_height="85dp"
+        android:src="@drawable/avatar_restaurant"
+        android:scaleType="fitXY"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_toEndOf="@+id/iv_avatar_restaurant"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_restaurant_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Quán Cơm Mẹ Nấu 20k"
+            android:textSize="14sp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/black"
+            android:maxLines="2"/>
+
+        <TextView
+            android:id="@+id/tv_big_sale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:padding="2dp"
+            android:text="Big Sale"
+            android:textSize="12sp"
+            android:textColor="@color/red_500"
+            android:fontFamily="@font/roboto_regular"
+            android:background="@drawable/bg_sale"/>
+    </LinearLayout>
+</RelativeLayout>

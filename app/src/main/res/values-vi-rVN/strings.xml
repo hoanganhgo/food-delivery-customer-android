@@ -31,4 +31,6 @@
     <string name="dish_free_ship">Miễn phí giao hàng</string>
     <string name="big_sale">Siêu Ưu Đãi</string>
     <string name="view_more">Xem thêm</string>
+    <string name="recommend">Món đề xuất</string>
+    <string name="recent">Món gần đây</string>
 </resources>

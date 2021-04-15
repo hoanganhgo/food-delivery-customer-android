@@ -1,5 +1,13 @@
 package com.hcmus.fit.customer_apps.adapters;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +20,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hcmus.fit.customer_apps.R;
 import com.hcmus.fit.customer_apps.models.Restaurant;
+import com.squareup.picasso.Picasso;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.MyViewHolder> {
-    List<Restaurant> restaurantList = new LinkedList<>();
+
+    private List<Restaurant> restaurantList = new LinkedList<>();
 
     public RestaurantAdapter(List<Restaurant> restaurantList) {
         this.restaurantList = restaurantList;
@@ -53,6 +63,9 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.My
             ivAvatar = view.findViewById(R.id.iv_avatar_restaurant);
             tvName = view.findViewById(R.id.tv_restaurant_name);
             tvSale = view.findViewById(R.id.tv_big_sale);
+
+            String imageUri = "https://images.foody.vn/delivery/collection/s320x200/image-900af801-201118134119.jpeg";
+            Picasso.with(view.getContext()).load(imageUri).into(ivAvatar);
         }
     }
 }
