@@ -38,19 +38,11 @@ public class SignInNetwork {
                         JSONObject data = json.getJSONObject("data");
                         String token = data.getString("token");
 
-                        if (token == null) {
-                            String userId = data.getString("userID");
+                        UserInfo.getInstance().setToken(token);
+                        Log.d("user", UserInfo.getInstance().getToken());
 
-                            Intent intent = new Intent(context, PhoneLoginActivity.class);
-                            intent.putExtra("userId", userId);
-                            context.startActivity(intent);
-                        } else {
-                            UserInfo.getInstance().setToken(token);
-                            Log.d("user", UserInfo.getInstance().getToken());
-
-                            Intent intent = new Intent(context, MainActivity.class);
-                            context.startActivity(intent);
-                        }
+                        Intent intent = new Intent(context, MainActivity.class);
+                        context.startActivity(intent);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

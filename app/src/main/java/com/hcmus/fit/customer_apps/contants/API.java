@@ -11,4 +11,7 @@ public class API {
 
     public static final String SIGN_IN_WITH_GOOGLE = SERVER + "/customer/auth/google";
     public static final String SIGN_IN_WITH_PHONE_NUMBER = SERVER + "/customer/auth/vertify-phone";
+    public static final String GET_RESTAURANTS = SERVER + "/restaurants";
+    public static final String GET_RESTAURANT_DETAIL = SERVER + "/restaurants/{restaurantID}";
+    public static final String GET_MENU_RESTAURANT = SERVER + "/restaurants/{restaurantID}/foods";
 }

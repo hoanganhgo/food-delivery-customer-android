@@ -11,6 +11,8 @@ public class UserInfo {
     private String avatar = "";
     private String token = "";
 
+    private final Cart cart = new Cart();
+
     private UserInfo() {
 
     }
@@ -91,6 +93,10 @@ public class UserInfo {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Cart getCart() {
+        return cart;
     }
 
     public void clear() {

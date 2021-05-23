@@ -1,6 +1,6 @@
 <resources>
     <string name="server_client_id" translatable="false">994316621617-fe0h6oa4mk89d6ts5mgse0n8jpborcvf.apps.googleusercontent.com</string>
-    <string name="app_name">Customer-Apps</string>
+    <string name="app_name">FlashFood</string>
     <string name="hello">Hello</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
@@ -33,4 +33,13 @@
     <string name="view_more">View more</string>
     <string name="recommend">Recommend</string>
     <string name="recent">Recent</string>
+    <string name="menu">Menu</string>
+    <string name="sold">sold</string>
+    <string name="like">like</string>
+    <string name="address_delivery">Address delivery</string>
+    <string name="order_detail">Order detail</string>
+    <string name="price">Price</string>
+    <string name="ship_fee">Ship fee</string>
+    <string name="total">Total</string>
+    <string name="order">Order</string>
 </resources>

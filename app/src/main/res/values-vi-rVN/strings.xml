@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Customer-Apps</string>
     <string name="hello">Xin Chào</string>
     <string name="sign_in">Đăng nhập</string>
     <string name="sign_up">Đăng ký</string>
@@ -33,4 +32,13 @@
     <string name="view_more">Xem thêm</string>
     <string name="recommend">Món đề xuất</string>
     <string name="recent">Món gần đây</string>
+    <string name="menu">Thực đơn</string>
+    <string name="sold">đã bán</string>
+    <string name="like">thích</string>
+    <string name="order">Đặt hàng</string>
+    <string name="address_delivery">Địa chỉ giao hàng</string>
+    <string name="order_detail">Chi tiết đơn hàng</string>
+    <string name="price">Giá tiền</string>
+    <string name="ship_fee">Phí giao hàng</string>
+    <string name="total">Tổng thanh toán</string>
 </resources>

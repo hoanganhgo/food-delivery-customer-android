@@ -24,8 +24,8 @@
             android:layout_height="match_parent">
             <ImageView
                 android:id="@+id/iv_avatar_restaurant"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="130dp"
+                android:layout_height="100dp"
                 android:src="@drawable/avatar_restaurant"
                 android:scaleType="fitXY" />
 

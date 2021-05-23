@@ -1,9 +1,13 @@
 package com.hcmus.fit.customer_apps.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,20 +19,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hcmus.fit.customer_apps.R;
+import com.hcmus.fit.customer_apps.activities.SearchActivity;
 import com.hcmus.fit.customer_apps.adapters.BannerAdapter;
 import com.hcmus.fit.customer_apps.adapters.RestaurantAdapter;
 import com.hcmus.fit.customer_apps.adapters.RestaurantVAdapter;
 import com.hcmus.fit.customer_apps.models.Banner;
 import com.hcmus.fit.customer_apps.models.Restaurant;
+import com.hcmus.fit.customer_apps.networks.RestaurantNetwork;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    private List<Banner> bannerList = new LinkedList<>();
-    private List<Restaurant> restaurantList = new LinkedList<>();
-    private List<Restaurant> recommendList = new LinkedList<>();
+    private List<Banner> bannerList = new ArrayList<>();
+    private List<Restaurant> restaurantList = new ArrayList<>();
+    private List<Restaurant> recommendList = new ArrayList<>();
 
+    private Button btnSearchBar;
     private RecyclerView lvBanner;
     private RecyclerView lvRestaurant;
     private RecyclerView lvRecommend;
@@ -46,10 +54,20 @@ public class HomeFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
+        btnSearchBar = root.findViewById(R.id.btn_search_bar);
         lnRecent = root.findViewById(R.id.ln_recent);
+        lvBanner = root.findViewById(R.id.lv_banner);
+        lvRestaurant = root.findViewById(R.id.lv_big_sale);
+        lvRecommend = root.findViewById(R.id.lv_recommend);
+        lvRecent = root.findViewById(R.id.lv_recent);
+
+        btnSearchBar.setOnClickListener(v -> {
+            Intent intentSearch = new Intent(getContext(), SearchActivity.class);
+            startActivity(intentSearch);
+        });
+
         revAdapter = new RestaurantVAdapter(getContext(), recommendList);
 
-        lvBanner = root.findViewById(R.id.lv_banner);
         LinearLayoutManager bnLayoutManager = new LinearLayoutManager(getContext().getApplicationContext());
         bnLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         lvBanner.setLayoutManager(bnLayoutManager);
@@ -57,24 +75,22 @@ public class HomeFragment extends Fragment {
         lvBanner.setAdapter(bnAdapter);
         genDataBanners();
 
-        lvRestaurant = root.findViewById(R.id.lv_big_sale);
         LinearLayoutManager resLayoutManager = new LinearLayoutManager(getContext().getApplicationContext());
         resLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         lvRestaurant.setLayoutManager(resLayoutManager);
         lvRestaurant.setItemAnimator(new DefaultItemAnimator());
         lvRestaurant.setAdapter(resAdapter);
-        genDataRestaurant();
+        RestaurantNetwork.getRestaurants(getContext(), resAdapter);
 
-        lvRecent = root.findViewById(R.id.lv_recent);
-        lvRecent.setAdapter(revAdapter);
-
-        lvRecommend = root.findViewById(R.id.lv_recommend);
         LinearLayoutManager reLayoutManager = new LinearLayoutManager(getContext().getApplicationContext());
         reLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         lvRecommend.setLayoutManager(reLayoutManager);
         lvRecommend.setItemAnimator(new DefaultItemAnimator());
         lvRecommend.setAdapter(reAdapter);
-        genDataRecommend();
+        RestaurantNetwork.getRestaurants(getContext(), reAdapter);
+
+        lvRecent.setAdapter(revAdapter);
+        RestaurantNetwork.getRestaurantsRecent(getContext(), revAdapter);
         
         return root;
     }
@@ -93,32 +109,5 @@ public class HomeFragment extends Fragment {
         bannerList.add(banner4);
 
         bnAdapter.notifyDataSetChanged();
-    }
-
-    private void genDataRestaurant() {
-        Restaurant restaurant1 = new Restaurant();
-        Restaurant restaurant2 = new Restaurant();
-        Restaurant restaurant3 = new Restaurant();
-        Restaurant restaurant4 = new Restaurant();
-        restaurantList.add(restaurant1);
-        restaurantList.add(restaurant2);
-        restaurantList.add(restaurant3);
-        restaurantList.add(restaurant4);
-
-        resAdapter.notifyDataSetChanged();
-    }
-
-    private void genDataRecommend() {
-        Restaurant restaurant1 = new Restaurant();
-        Restaurant restaurant2 = new Restaurant();
-        Restaurant restaurant3 = new Restaurant();
-        Restaurant restaurant4 = new Restaurant();
-        recommendList.add(restaurant1);
-        recommendList.add(restaurant2);
-        recommendList.add(restaurant3);
-        recommendList.add(restaurant4);
-
-        reAdapter.notifyDataSetChanged();
-        revAdapter.notifyDataSetChanged();
     }
 }
