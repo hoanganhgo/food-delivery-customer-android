@@ -41,4 +41,8 @@
     <string name="price">Price</string>
     <string name="ship_fee">Ship fee</string>
     <string name="total">Total</string>
+    <string name="find_shipper">Find the shipper</string>
+    <string name="waiting_confirm">Waiting confirm</string>
+    <string name="shipping">Shipping</string>
+    <string name="arrived">Arrived</string>
 </resources>

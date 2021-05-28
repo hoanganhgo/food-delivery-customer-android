@@ -1,20 +1,26 @@
 package com.hcmus.fit.customer_apps.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserInfo {
     private static UserInfo instance = null;
 
     private String id = "";
     private String firstName = "";
     private String lastName = "";
-    private String phoneNumber = "";
+    private String phoneNumber = "0123456789";
     private String email = "";
     private String avatar = "";
     private String token = "";
+    private List<Address> addressList = new ArrayList<>();
+    private int addressIndex = 0;
 
     private final Cart cart = new Cart();
+    private final OrderManager orderManager = new OrderManager();
 
     private UserInfo() {
-
+        addressList.add(new Address("123, Ly Thuong Kiet, Q.10, TP.HCM", "My House"));
     }
 
     public static UserInfo getInstance() {
@@ -97,6 +103,34 @@ public class UserInfo {
 
     public Cart getCart() {
         return cart;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public Address getAddressCurrent() {
+        return this.addressList.get(addressIndex);
+    }
+
+    public OrderManager getOrderManager() {
+        return orderManager;
     }
 
     public void clear() {

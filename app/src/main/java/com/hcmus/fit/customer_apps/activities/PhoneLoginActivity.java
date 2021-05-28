@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.hcmus.fit.customer_apps.R;
+import com.hcmus.fit.customer_apps.models.UserInfo;
 import com.hcmus.fit.customer_apps.networks.SignInNetwork;
 
 public class PhoneLoginActivity extends AppCompatActivity {
@@ -31,7 +32,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String userId = intent.getStringExtra("userId");
-        Log.d("phone", "PhoneLoginActivity userId: "+userId);
+        Log.d("phone", "PhoneLoginActivity userId: " + userId);
 
         btnBack.setOnClickListener(v -> onBackPressed());
         btnContinue.setOnClickListener(v -> {
@@ -40,9 +41,16 @@ public class PhoneLoginActivity extends AppCompatActivity {
                 return;
             }
 
+            UserInfo.getInstance().setPhoneNumber(edtPhoneNumber.getText().toString());
             Log.d("phone_number", edtPhoneNumber.getText().toString());
-            SignInNetwork.verifyPhoneNumber(this, userId,
-                    edtPhoneNumber.getText().toString());
+//            SignInNetwork.verifyPhoneNumber(this, userId,
+//                    edtPhoneNumber.getText().toString());
+
+//            SignInNetwork.sendOTP(this, UserInfo.getInstance().getId(),
+//                    UserInfo.getInstance().getPhoneNumber());
+
+            Intent intent1 = new Intent(this, OTPLoginActivity.class);
+            startActivity(intent1);
         });
     }
 

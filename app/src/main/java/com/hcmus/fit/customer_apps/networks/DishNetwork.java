@@ -2,20 +2,29 @@ package com.hcmus.fit.customer_apps.networks;
 
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.hcmus.fit.customer_apps.activities.CartActivity;
 import com.hcmus.fit.customer_apps.activities.MerchantActivity;
 import com.hcmus.fit.customer_apps.adapters.DishAdapter;
 import com.hcmus.fit.customer_apps.contants.API;
+import com.hcmus.fit.customer_apps.models.Cart;
 import com.hcmus.fit.customer_apps.models.DishModel;
+import com.hcmus.fit.customer_apps.models.Order;
+import com.hcmus.fit.customer_apps.models.UserInfo;
 import com.hcmus.fit.customer_apps.utils.QueryUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,6 +71,79 @@ public class DishNetwork {
                     }
                 },
                 error -> Log.d("menu", error.getMessage()));
+
+        queue.add(req);
+    }
+
+    public static void order(CartActivity context, Cart cart) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        StringRequest req = new StringRequest(Request.Method.POST, API.ORDER,
+                response -> {
+                    Log.d("order", response.toString());
+                    try {
+                        JSONObject json = new JSONObject(response);
+                        int errorCode = json.getInt("errorCode");
+                        if (errorCode == 0) {
+                            JSONObject data = json.getJSONObject("data");
+                            String id = data.getString("id");
+                            Order order = new Order(id);
+                            order.setAddress(data.getString("Address"));
+                            order.setRestaurantId(data.getString("Restaurant"));
+                            order.setRestaurantPhone(data.getString("Phone"));
+                            order.setShipFee(data.getInt("ShippingFee"));
+                            order.setSubTotal(data.getInt("Subtotal"));
+                            order.setTotal(data.getInt("Total"));
+                            UserInfo.getInstance().getOrderManager().setOrder(order);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> Log.d("order", error.getMessage()))
+        {
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                JSONObject json = null;
+                try {
+                    json = new JSONObject();
+                    UserInfo userInfo = UserInfo.getInstance();
+                    JSONArray foodArray = cart.createFoodArrayJson();
+
+                    json.put("foods", foodArray);
+                    Log.d("order", foodArray.toString());
+                    Log.d("order", "total: "+cart.getTotal());
+                    json.put("subtotal", cart.getTotal());
+                    json.put("shippingfee", 10000);
+
+
+                    json.put("address", userInfo.getAddressCurrent().getFullAddress());
+                    json.put("phone", userInfo.getPhoneNumber());
+                    json.put("longitude", userInfo.getAddressCurrent().getLongitude());
+                    json.put("latitude", userInfo.getAddressCurrent().getLatitude());
+                    json.put("method", 0);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                return json == null ? null : json.toString().getBytes(StandardCharsets.UTF_8);
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + UserInfo.getInstance().getToken());
+                return headers;
+            }
+        };
 
         queue.add(req);
     }

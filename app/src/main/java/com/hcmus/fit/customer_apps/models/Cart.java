@@ -1,5 +1,9 @@
 package com.hcmus.fit.customer_apps.models;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -69,17 +73,21 @@ public class Cart {
 
     }
 
-    public void clear() {
-        this.dishList.clear();
+    public JSONArray createFoodArrayJson() throws JSONException {
+        JSONArray foodArray = new JSONArray();
+
+        for (DishOrder dishOrder : this.dishList) {
+            JSONObject dishJson = new JSONObject();
+            dishJson.put("id", dishOrder.dishModel.getId());
+            dishJson.put("price", dishOrder.dishModel.getPrice());
+            dishJson.put("quantity", dishOrder.num);
+            foodArray.put(dishJson);
+        }
+
+        return foodArray;
     }
 
-    static class DishOrder {
-        public DishModel dishModel;
-        public int num = 0;
-
-        public DishOrder(DishModel dishModel, int num) {
-            this.dishModel = dishModel;
-            this.num = num;
-        }
+    public void clear() {
+        this.dishList.clear();
     }
 }

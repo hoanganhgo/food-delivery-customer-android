@@ -84,8 +84,8 @@
 
         <EditText
             android:id="@+id/edt_otp1"
-            android:layout_width="75dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:background="@drawable/bg_btn_transparent"
             android:textSize="30sp"
@@ -96,8 +96,8 @@
 
         <EditText
             android:id="@+id/edt_otp2"
-            android:layout_width="75dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:background="@drawable/bg_btn_transparent"
             android:textSize="30sp"
@@ -108,8 +108,8 @@
 
         <EditText
             android:id="@+id/edt_otp3"
-            android:layout_width="75dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:background="@drawable/bg_btn_transparent"
             android:textSize="30sp"
@@ -120,8 +120,32 @@
 
         <EditText
             android:id="@+id/edt_otp4"
-            android:layout_width="75dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_btn_transparent"
+            android:textSize="30sp"
+            android:layout_marginHorizontal="5dp"
+            android:textAlignment="center"
+            android:maxLength="1"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/edt_otp5"
+            android:layout_width="45dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_btn_transparent"
+            android:textSize="30sp"
+            android:layout_marginHorizontal="5dp"
+            android:textAlignment="center"
+            android:maxLength="1"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/edt_otp6"
+            android:layout_width="45dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:background="@drawable/bg_btn_transparent"
             android:textSize="30sp"

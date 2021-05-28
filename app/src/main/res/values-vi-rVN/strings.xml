@@ -41,4 +41,8 @@
     <string name="price">Giá tiền</string>
     <string name="ship_fee">Phí giao hàng</string>
     <string name="total">Tổng thanh toán</string>
+    <string name="find_shipper">Tìm tài xế</string>
+    <string name="waiting_confirm">Chờ xác nhận</string>
+    <string name="shipping">Đang giao hàng</string>
+    <string name="arrived">Đã đến nơi</string>
 </resources>

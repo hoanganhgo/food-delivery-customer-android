@@ -36,15 +36,27 @@ public class SignInNetwork {
                     try {
                         JSONObject json = new JSONObject(response);
                         JSONObject data = json.getJSONObject("data");
-                        String token = data.getString("token");
+                        String userId = data.getString("user");
 
-                        UserInfo.getInstance().setToken(token);
-                        Log.d("user", UserInfo.getInstance().getToken());
+                        UserInfo.getInstance().setId(userId);
+                        Log.d("user", UserInfo.getInstance().getId());
 
-                        Intent intent = new Intent(context, MainActivity.class);
+                        Intent intent = new Intent(context, PhoneLoginActivity.class);
                         context.startActivity(intent);
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        try {
+                            JSONObject json = new JSONObject(response);
+                            JSONObject data = json.getJSONObject("data");
+                            String token = data.getString("token");
+
+                            UserInfo.getInstance().setToken(token);
+                            Log.d("token", UserInfo.getInstance().getToken());
+
+                            Intent intent = new Intent(context, MainActivity.class);
+                            context.startActivity(intent);
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 },
                 error -> Log.d("google", error.getMessage()))
@@ -53,8 +65,7 @@ public class SignInNetwork {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("id", account.getId());
-                params.put("accessToken", account.getIdToken());
+                params.put("idToken", account.getIdToken());
 
                 return params;
             }
@@ -88,6 +99,79 @@ public class SignInNetwork {
                 Map<String, String> params = new HashMap<>();
                 params.put("userID", userId);
                 params.put("phone", phoneNumber);
+                return params;
+            }
+        };
+
+        queue.add(req);
+    }
+
+    public static void sendOTP(Context context, String userId, String phoneNumber) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        StringRequest req = new StringRequest(Request.Method.POST, API.SEND_OTP,
+                response -> {
+                    Log.d("OTP", response);
+                    JSONObject json = null;
+                    try {
+                        json = new JSONObject(response);
+                        int error = json.getInt("errorCode");
+
+                        if (error == 0) {
+                            Intent intent = new Intent(context, OTPLoginActivity.class);
+                            context.startActivity(intent);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                },
+                error -> Log.d("OTP", error.getMessage()))
+        {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("user", userId);
+                params.put("phone", phoneNumber);
+                return params;
+            }
+        };
+
+        queue.add(req);
+    }
+
+    public static void authVerify(Context context, String userId, String OTP) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        StringRequest req = new StringRequest(Request.Method.POST, API.AUTH_VERIFY,
+                response -> {
+                    Log.d("Verify", response);
+                    JSONObject json = null;
+                    try {
+                        json = new JSONObject(response);
+                        int error = json.getInt("errorCode");
+
+                        if (error == 0) {
+                            JSONObject data = json.getJSONObject("data");
+                            String token = data.getString("token");
+                            UserInfo.getInstance().setToken(token);
+                            Intent intent = new Intent(context, MainActivity.class);
+                            context.startActivity(intent);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                },
+                error -> Log.d("Verify", error.getMessage()))
+        {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("user", userId);
+                params.put("otp", OTP);
                 return params;
             }
         };

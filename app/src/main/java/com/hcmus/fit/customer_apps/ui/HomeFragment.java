@@ -1,5 +1,6 @@
 package com.hcmus.fit.customer_apps.ui;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -31,11 +33,17 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+
 public class HomeFragment extends Fragment {
+    private final int REQUEST_LOCATION_PERMISSION = 1;
+
     private List<Banner> bannerList = new ArrayList<>();
     private List<Restaurant> restaurantList = new ArrayList<>();
     private List<Restaurant> recommendList = new ArrayList<>();
 
+    private Button btnLocationBar;
     private Button btnSearchBar;
     private RecyclerView lvBanner;
     private RecyclerView lvRestaurant;
@@ -54,12 +62,18 @@ public class HomeFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
+        btnLocationBar = root.findViewById(R.id.btn_location_bar);
         btnSearchBar = root.findViewById(R.id.btn_search_bar);
         lnRecent = root.findViewById(R.id.ln_recent);
         lvBanner = root.findViewById(R.id.lv_banner);
         lvRestaurant = root.findViewById(R.id.lv_big_sale);
         lvRecommend = root.findViewById(R.id.lv_recommend);
         lvRecent = root.findViewById(R.id.lv_recent);
+
+        btnLocationBar.setOnClickListener(v -> {
+            Log.d("location", "permssion location");
+            requestLocationPermission();
+        });
 
         btnSearchBar.setOnClickListener(v -> {
             Intent intentSearch = new Intent(getContext(), SearchActivity.class);
@@ -109,5 +123,24 @@ public class HomeFragment extends Fragment {
         bannerList.add(banner4);
 
         bnAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @AfterPermissionGranted(REQUEST_LOCATION_PERMISSION)
+    public void requestLocationPermission() {
+        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION};
+        if(EasyPermissions.hasPermissions(getContext(), perms)) {
+            Toast.makeText(getContext(), "Permission already granted", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            EasyPermissions.requestPermissions(this, "Please grant the location permission", REQUEST_LOCATION_PERMISSION, perms);
+        }
     }
 }
