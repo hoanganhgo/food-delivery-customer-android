@@ -28,6 +28,16 @@ public class Cart {
     }
 
     public int getNumDish() {
+        int num = 0;
+
+        for (DishOrder dishOrder : dishList) {
+            num += dishOrder.num;
+        }
+
+        return num;
+    }
+
+    public int getDishListSize() {
         return this.dishList.size();
     }
 

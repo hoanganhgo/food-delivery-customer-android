@@ -13,14 +13,14 @@ public class UserInfo {
     private String email = "";
     private String avatar = "";
     private String token = "";
-    private List<Address> addressList = new ArrayList<>();
+    private List<AddressModel> addressModelList = new ArrayList<>();
     private int addressIndex = 0;
 
     private final Cart cart = new Cart();
     private final OrderManager orderManager = new OrderManager();
 
     private UserInfo() {
-        addressList.add(new Address("123, Ly Thuong Kiet, Q.10, TP.HCM", "My House"));
+
     }
 
     public static UserInfo getInstance() {
@@ -125,8 +125,17 @@ public class UserInfo {
         this.avatar = avatar;
     }
 
-    public Address getAddressCurrent() {
-        return this.addressList.get(addressIndex);
+    public AddressModel getAddressCurrent() {
+        if (addressIndex < this.addressModelList.size()) {
+            return this.addressModelList.get(addressIndex);
+        }
+
+        return new AddressModel("Unknown","Unknown");
+    }
+
+    public void addAddressCurrent(AddressModel addressModel) {
+        this.addressModelList.add(addressModel);
+        this.addressIndex = this.addressModelList.size() - 1;
     }
 
     public OrderManager getOrderManager() {

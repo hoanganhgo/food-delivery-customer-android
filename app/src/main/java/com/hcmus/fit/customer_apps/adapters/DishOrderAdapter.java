@@ -27,7 +27,7 @@ public class DishOrderAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return UserInfo.getInstance().getCart().getNumDish();
+        return UserInfo.getInstance().getCart().getDishListSize();
     }
 
     @Override

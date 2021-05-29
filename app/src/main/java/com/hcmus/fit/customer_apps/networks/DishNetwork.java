@@ -113,7 +113,6 @@ public class DishNetwork {
 
                     json.put("foods", foodArray);
                     Log.d("order", foodArray.toString());
-                    Log.d("order", "total: "+cart.getTotal());
                     json.put("subtotal", cart.getTotal());
                     json.put("shippingfee", 10000);
 

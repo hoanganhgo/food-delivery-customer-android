@@ -28,7 +28,17 @@ public class OrderStatusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_status);
 
+        lnWay01 = findViewById(R.id.ln_way_01);
+        lnWay02 = findViewById(R.id.ln_way_02);
+        lnWay03 = findViewById(R.id.ln_way_03);
+        lnWay04 = findViewById(R.id.ln_way_04);
+        tvWaiting = findViewById(R.id.tv_lb_waiting);
+        tvWaitShipper = findViewById(R.id.tv_lb_find_shipper);
+        tvShipping = findViewById(R.id.tv_lb_shipping);
+        tvArrived = findViewById(R.id.tv_lb_arrived);
+
         UserInfo.getInstance().getOrderManager().setActivity(this);
+        setStatusWaiting();
     }
 
     public void setStatusWaiting() {

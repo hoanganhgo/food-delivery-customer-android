@@ -1,12 +1,12 @@
 package com.hcmus.fit.customer_apps.models;
 
-public class Address {
+public class AddressModel {
     private String fullAddress;
     private String name;
     private float longitude;
     private float latitude;
 
-    public Address(String fullAddress, String name) {
+    public AddressModel(String fullAddress, String name) {
         this.fullAddress = fullAddress;
         this.name = name;
     }
