@@ -15,15 +15,32 @@
             android:fontFamily="@font/roboto_medium"
             android:textSize="14sp"
             android:textColor="@color/grey"/>
+
         <TextView
             android:id="@+id/tv_address_delivery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="123, Ly Thuong Kiet, Quan 10, TP. HCM"
-            android:fontFamily="@font/roboto_medium"
-            android:textSize="18sp"
+            android:text="@string/enter_your_location"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="14sp"
             android:textColor="@color/black"
             android:maxLines="1"/>
+
+        <Button
+            android:id="@+id/btn_edit_location"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="@string/edit_location"
+            android:background="@drawable/bg_btn_dish"
+            android:textAllCaps="false"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:layout_gravity="end"
+            android:paddingHorizontal="3dp"
+            android:drawableStart="@drawable/ic_edit"
+            android:drawablePadding="2dp"
+            />
 
         <View
             android:layout_width="match_parent"
@@ -100,7 +117,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_ship_fee"
-                        android:text="5.000đ"
+                        android:text="10.000đ"
                         android:textSize="17sp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/roboto_regular"
@@ -148,7 +165,7 @@
         android:id="@+id/btn_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/order"
+        android:text="@string/orderModel"
         android:fontFamily="@font/roboto_medium"
         android:textSize="18sp"
         android:textColor="@color/white"

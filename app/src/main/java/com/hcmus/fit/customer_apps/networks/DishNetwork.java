@@ -2,8 +2,6 @@ package com.hcmus.fit.customer_apps.networks;
 
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -15,7 +13,7 @@ import com.hcmus.fit.customer_apps.adapters.DishAdapter;
 import com.hcmus.fit.customer_apps.contants.API;
 import com.hcmus.fit.customer_apps.models.Cart;
 import com.hcmus.fit.customer_apps.models.DishModel;
-import com.hcmus.fit.customer_apps.models.Order;
+import com.hcmus.fit.customer_apps.models.OrderModel;
 import com.hcmus.fit.customer_apps.models.UserInfo;
 import com.hcmus.fit.customer_apps.utils.QueryUtil;
 
@@ -23,7 +21,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,6 +56,7 @@ public class DishNetwork {
                                 DishModel dishModel = new DishModel(dishId, name, avatar, price);
                                 dishModel.setFoodCategoryId(categoryId);
                                 dishModel.setTotalOrder(totalOrder);
+                                dishModel.setOptionListWithJson( dishJson.getJSONArray("Options"));
                                 adapter.dishList.add(dishModel);
                             }
                         }
@@ -87,14 +85,14 @@ public class DishNetwork {
                         if (errorCode == 0) {
                             JSONObject data = json.getJSONObject("data");
                             String id = data.getString("id");
-                            Order order = new Order(id);
-                            order.setAddress(data.getString("Address"));
-                            order.setRestaurantId(data.getString("Restaurant"));
-                            order.setRestaurantPhone(data.getString("Phone"));
-                            order.setShipFee(data.getInt("ShippingFee"));
-                            order.setSubTotal(data.getInt("Subtotal"));
-                            order.setTotal(data.getInt("Total"));
-                            UserInfo.getInstance().getOrderManager().setOrder(order);
+                            OrderModel orderModel = new OrderModel(id);
+                            orderModel.setAddress(data.getString("Address"));
+                            orderModel.setRestaurantId(data.getString("Restaurant"));
+                            orderModel.setRestaurantPhone(data.getString("Phone"));
+                            orderModel.setShipFee(data.getInt("ShippingFee"));
+                            orderModel.setSubTotal(data.getInt("Subtotal"));
+                            orderModel.setTotal(data.getInt("Total"));
+                            UserInfo.getInstance().getOrderManager().setOrderModel(orderModel);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -112,7 +110,6 @@ public class DishNetwork {
                     JSONArray foodArray = cart.createFoodArrayJson();
 
                     json.put("foods", foodArray);
-                    Log.d("order", foodArray.toString());
                     json.put("subtotal", cart.getTotal());
                     json.put("shippingfee", 10000);
 
@@ -122,11 +119,12 @@ public class DishNetwork {
                     json.put("longitude", userInfo.getAddressCurrent().getLongitude());
                     json.put("latitude", userInfo.getAddressCurrent().getLatitude());
                     json.put("method", 0);
+                    Log.d("order-send", json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                return json == null ? null : json.toString().getBytes(StandardCharsets.UTF_8);
+                return json.toString().getBytes(StandardCharsets.UTF_8);
             }
 
             @Override

@@ -10,6 +10,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hcmus.fit.customer_apps.activities.MerchantActivity;
+import com.hcmus.fit.customer_apps.activities.SearchActivity;
 import com.hcmus.fit.customer_apps.adapters.RestaurantAdapter;
 import com.hcmus.fit.customer_apps.adapters.RestaurantVAdapter;
 import com.hcmus.fit.customer_apps.contants.API;
@@ -30,7 +31,7 @@ public class RestaurantNetwork {
         RequestQueue queue = Volley.newRequestQueue(context);
         StringRequest req = new StringRequest(Request.Method.GET, API.GET_RESTAURANTS,
                 response -> {
-                    Log.d("restaurant", response.toString());
+                    //Log.d("restaurant", response.toString());
                     try {
                         JSONObject json = new JSONObject(response);
                         JSONArray listRestaurant = json.getJSONArray("data");
@@ -60,7 +61,7 @@ public class RestaurantNetwork {
         RequestQueue queue = Volley.newRequestQueue(context);
         StringRequest req = new StringRequest(Request.Method.GET, API.GET_RESTAURANTS,
                 response -> {
-                    Log.d("restaurant", response.toString());
+                    //Log.d("restaurant", response.toString());
                     try {
                         JSONObject json = new JSONObject(response);
                         JSONArray listRestaurant = json.getJSONArray("data");
@@ -120,9 +121,9 @@ public class RestaurantNetwork {
         queue.add(req);
     }
 
-    public static void searchRestaurant(Context context, RestaurantVAdapter adapter, String keyWord) {
+    public static void searchRestaurant(Context context, RestaurantVAdapter adapter, String keyWord,int page) {
         RequestQueue queue = Volley.newRequestQueue(context);
-        String query = API.GET_RESTAURANTS + "?keyword=" + keyWord;
+        String query = API.GET_RESTAURANTS + "?keyword=" + keyWord + "&page=" + page;
         StringRequest req = new StringRequest(Request.Method.GET, query,
                 response -> {
                     Log.d("restaurant", response.toString());

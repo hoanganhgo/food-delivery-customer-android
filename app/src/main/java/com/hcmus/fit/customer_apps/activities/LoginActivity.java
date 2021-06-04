@@ -72,25 +72,25 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if (account != null) {
-            Log.d("google", "OnStart Token: "+account.getIdToken());
-            Log.d("google", "Display name: " + account.getDisplayName());
-            Log.d("google", "Give Name: " + account.getGivenName());
-            Log.d("google", "Family name: " + account.getFamilyName());
-            Log.d("google", "Email: " + account.getEmail());
-            Log.d("google","Id: " + account.getId());
-            Log.d("google","photo: " + account.getPhotoUrl());
-
-            UserInfo.getInstance()
-                    .withUserId(account.getId())
-                    .withFirstName(account.getFamilyName())
-                    .withLastName(account.getGivenName())
-                    .withEmail(account.getEmail())
-                    .withAvatar(account.getPhotoUrl().toString());
-
-            SignInNetwork.sendGGIdTokenToServer(this, account);
-        }
+//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+//        if (account != null) {
+//            Log.d("google", "OnStart Token: "+account.getIdToken());
+//            Log.d("google", "Display name: " + account.getDisplayName());
+//            Log.d("google", "Give Name: " + account.getGivenName());
+//            Log.d("google", "Family name: " + account.getFamilyName());
+//            Log.d("google", "Email: " + account.getEmail());
+//            Log.d("google","Id: " + account.getId());
+//            Log.d("google","photo: " + account.getPhotoUrl());
+//
+//            UserInfo.getInstance()
+//                    .withUserId(account.getId())
+//                    .withFirstName(account.getFamilyName())
+//                    .withLastName(account.getGivenName())
+//                    .withEmail(account.getEmail())
+//                    .withAvatar(account.getPhotoUrl().toString());
+//
+//            SignInNetwork.sendGGIdTokenToServer(this, account);
+//        }
 
     }
 

@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.hcmus.fit.customer_apps.R;
+import com.hcmus.fit.customer_apps.activities.MerchantListActivity;
 import com.hcmus.fit.customer_apps.activities.SearchActivity;
 import com.hcmus.fit.customer_apps.adapters.BannerAdapter;
 import com.hcmus.fit.customer_apps.adapters.RestaurantAdapter;
@@ -43,6 +45,7 @@ import com.hcmus.fit.customer_apps.models.Banner;
 import com.hcmus.fit.customer_apps.models.Restaurant;
 import com.hcmus.fit.customer_apps.models.UserInfo;
 import com.hcmus.fit.customer_apps.networks.RestaurantNetwork;
+import com.hcmus.fit.customer_apps.utils.AppUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,7 +56,7 @@ import java.util.Locale;
 import static android.content.Context.LOCATION_SERVICE;
 
 public class HomeFragment extends Fragment implements LocationListener {
-    private final int REQUEST_LOCATION_PERMISSION = 1;
+
     //permission
     private static final int MY_PERMISSIONS_REQUEST_COARSE_LOCATION = 124;
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 123;
@@ -65,10 +68,17 @@ public class HomeFragment extends Fragment implements LocationListener {
     private Button btnLocationBar;
     private Button btnSearchBar;
     private RecyclerView lvBanner;
+    private ImageButton btnDishRice;
+    private ImageButton btnDishSnack;
+    private ImageButton btnDishDrink;
+    private ImageButton btnDishSoup;
+    private ImageButton btnDishSale;
+    private ImageButton btnDishFreeShip;
     private RecyclerView lvRestaurant;
     private RecyclerView lvRecommend;
     private ListView lvRecent;
-    LinearLayout lnRecent;
+    private LinearLayout lnRecent;
+
 
 
     private BannerAdapter bnAdapter = new BannerAdapter(bannerList);
@@ -88,36 +98,62 @@ public class HomeFragment extends Fragment implements LocationListener {
         lvRestaurant = root.findViewById(R.id.lv_big_sale);
         lvRecommend = root.findViewById(R.id.lv_recommend);
         lvRecent = root.findViewById(R.id.lv_recent);
+        btnDishRice = root.findViewById(R.id.btn_dish_rice);
+        btnDishSnack = root.findViewById(R.id.btn_dish_snacks);
+        btnDishDrink = root.findViewById(R.id.btn_dish_drink);
+        btnDishSoup = root.findViewById(R.id.btn_dish_soup);
+        btnDishSale = root.findViewById(R.id.btn_dish_sale);
+        btnDishFreeShip = root.findViewById(R.id.btn_dish_free_ship);
 
-        btnLocationBar.setOnClickListener(v -> {
-            checkPermission();
-            Location location = getCurrentLocation();
-
-            if (location == null) {
-                return;
-            }
-
-            Geocoder geocoder;
-            List<Address> addresses;
-            geocoder = new Geocoder(getContext(), Locale.getDefault());
-
-            try {
-                addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-
-                String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                String city = addresses.get(0).getLocality();
-                String state = addresses.get(0).getAdminArea();
-                String country = addresses.get(0).getCountryName();
-                String postalCode = addresses.get(0).getPostalCode();
-                String knownName = addresses.get(0).getFeatureName();
-                Log.d("location", address);
-                AddressModel addressModel = new AddressModel(address, "");
-                UserInfo.getInstance().addAddressCurrent(addressModel);
-                btnLocationBar.setText(UserInfo.getInstance().getAddressCurrent().getFullAddress());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        btnDishRice.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), MerchantListActivity.class);
+            intent.putExtra("title", R.string.dish_rice);
+            intent.putExtra("keyword", "cơm");
+            startActivity(intent);
         });
+
+        btnDishSnack.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), MerchantListActivity.class);
+            intent.putExtra("title", R.string.dish_snacks);
+            intent.putExtra("keyword", "thức ăn nhanh");
+            startActivity(intent);
+        });
+
+        btnDishDrink.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), MerchantListActivity.class);
+            intent.putExtra("title", R.string.dish_drinks);
+            intent.putExtra("keyword", "nước uống");
+            startActivity(intent);
+        });
+
+        btnDishSoup.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), MerchantListActivity.class);
+            intent.putExtra("title", R.string.dish_soup);
+            intent.putExtra("keyword", "mì");
+            startActivity(intent);
+        });
+
+        btnDishSale.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), MerchantListActivity.class);
+            intent.putExtra("title", R.string.dish_sale);
+            intent.putExtra("keyword", "khuyến mãi");
+            startActivity(intent);
+        });
+
+        btnDishFreeShip.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), MerchantListActivity.class);
+            intent.putExtra("title", R.string.dish_free_ship);
+            intent.putExtra("keyword", "miễn phí");
+            startActivity(intent);
+        });
+
+        // Update user location
+        checkPermission();
+        Location location = getCurrentLocation();
+
+        if (location != null) {
+            updateLocation(location);
+        }
 
         btnSearchBar.setOnClickListener(v -> {
             Intent intentSearch = new Intent(getContext(), SearchActivity.class);
@@ -151,6 +187,15 @@ public class HomeFragment extends Fragment implements LocationListener {
         RestaurantNetwork.getRestaurantsRecent(getContext(), revAdapter);
 
         return root;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (UserInfo.getInstance().getAddressCurrent() != null) {
+            if (!btnLocationBar.getText().toString().equals( UserInfo.getInstance().getAddressCurrent().getFullAddress()))
+                btnLocationBar.setText(UserInfo.getInstance().getAddressCurrent().getFullAddress());
+        }
     }
 
     private void genDataBanners() {
@@ -223,6 +268,21 @@ public class HomeFragment extends Fragment implements LocationListener {
         Criteria criteria = new Criteria();
 
         return locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+    }
+
+    private void updateLocation(Location location) {
+        String address = AppUtil.getAddressByLocation(getContext(),
+                location.getLatitude(), location.getLongitude());
+        if (address == null) {
+            return;
+        }
+
+        AddressModel addressModel = new AddressModel(address, "");
+        addressModel.setLatitude(location.getLatitude());
+        addressModel.setLongitude(location.getLongitude());
+
+        UserInfo.getInstance().addAddressCurrent(addressModel);
+        btnLocationBar.setText(UserInfo.getInstance().getAddressCurrent().getFullAddress());
     }
 
     @Override

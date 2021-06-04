@@ -3,8 +3,8 @@ package com.hcmus.fit.customer_apps.models;
 public class AddressModel {
     private String fullAddress;
     private String name;
-    private float longitude;
-    private float latitude;
+    private double longitude;
+    private double latitude;
 
     public AddressModel(String fullAddress, String name) {
         this.fullAddress = fullAddress;
@@ -19,19 +19,19 @@ public class AddressModel {
         return name;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 }

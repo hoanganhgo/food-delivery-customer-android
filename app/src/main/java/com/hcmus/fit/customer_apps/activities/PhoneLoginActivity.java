@@ -43,14 +43,15 @@ public class PhoneLoginActivity extends AppCompatActivity {
 
             UserInfo.getInstance().setPhoneNumber(edtPhoneNumber.getText().toString());
             Log.d("phone_number", edtPhoneNumber.getText().toString());
-//            SignInNetwork.verifyPhoneNumber(this, userId,
-//                    edtPhoneNumber.getText().toString());
 
-//            SignInNetwork.sendOTP(this, UserInfo.getInstance().getId(),
-//                    UserInfo.getInstance().getPhoneNumber());
-
-            Intent intent1 = new Intent(this, OTPLoginActivity.class);
-            startActivity(intent1);
+            if (userId != null) {
+                //Login with social account
+                SignInNetwork.sendGGOTP(this, UserInfo.getInstance().getId(),
+                        UserInfo.getInstance().getPhoneNumber());
+            } else {
+                //Login with phone
+                SignInNetwork.sendPhoneOTP(this, UserInfo.getInstance().getPhoneNumber());
+            }
         });
     }
 

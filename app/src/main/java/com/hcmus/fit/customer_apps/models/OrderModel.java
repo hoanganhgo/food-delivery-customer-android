@@ -2,7 +2,7 @@ package com.hcmus.fit.customer_apps.models;
 
 import java.util.List;
 
-public class Order {
+public class OrderModel {
     private String id;
     private String restaurantId;
     private String restaurantPhone;
@@ -13,7 +13,7 @@ public class Order {
     private List<DishOrder> dishOrders;
     private int status;
 
-    public Order(String id) {
+    public OrderModel(String id) {
         this.id = id;
         this.status = 0;
     }

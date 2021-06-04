@@ -61,7 +61,7 @@ public class DishOrderAdapter extends BaseAdapter {
         DishModel dishModel = cart.getDishModel(position);
         holder.tvName.setText(dishModel.getName());
         Picasso.with(convertView.getContext()).load(dishModel.getAvatar()).into(holder.ivAvatar);
-        holder.tvPrice.setText( AppUtil.convertCurrency(dishModel.getPrice()));
+        holder.tvPrice.setText( AppUtil.convertCurrency(dishModel.getPriceTotal()));
         int num = cart.getNumberByIndex(position);
         holder.tvNumDish.setText(String.valueOf(num));
 

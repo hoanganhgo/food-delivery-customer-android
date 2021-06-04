@@ -1,5 +1,6 @@
 package com.hcmus.fit.customer_apps.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,6 +26,9 @@ public class OTPLoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_otp);
+
+        Intent intent = getIntent();
+        String method = intent.getStringExtra("method");
 
         btnBack = findViewById(R.id.btn_back);
         edtOTP[0] = findViewById(R.id.edt_otp1);
@@ -65,7 +69,11 @@ public class OTPLoginActivity extends AppCompatActivity {
         btnConfirm.setOnClickListener(v -> {
             if (isFillOTP()) {
                 Log.d("OTP", getOTP());
-                SignInNetwork.authVerify(this, UserInfo.getInstance().getId(), getOTP());
+                if (method.equals("google")) {
+                    SignInNetwork.authGGVerify(this, UserInfo.getInstance().getId(), getOTP());
+                } else if (method.equals("phone")) {
+                    SignInNetwork.authPhoneVerify(this, UserInfo.getInstance().getPhoneNumber(), getOTP());
+                }
             }
 
         });

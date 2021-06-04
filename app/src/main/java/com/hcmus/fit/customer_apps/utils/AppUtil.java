@@ -1,7 +1,20 @@
 package com.hcmus.fit.customer_apps.utils;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.util.Log;
+
+import com.hcmus.fit.customer_apps.models.AddressModel;
+import com.hcmus.fit.customer_apps.models.UserInfo;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class AppUtil {
     public static String parseMerchantHours(JSONArray hoursArray) throws JSONException {
@@ -34,5 +47,27 @@ public class AppUtil {
         s.insert(0, money);
 
         return s.toString();
+    }
+
+    public static String convertDishOption(String name, int price) {
+        return name
+                + " (" + AppUtil.convertCurrency(price) + ")";
+    }
+
+    public static String getAddressByLocation(Context context, double latitude, double longitude) {
+        String address = null;
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+
+            address = addresses.get(0).getAddressLine(0);
+            Log.d("location", address);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return address;
     }
 }

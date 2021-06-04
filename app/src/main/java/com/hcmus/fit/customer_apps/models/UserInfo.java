@@ -13,14 +13,28 @@ public class UserInfo {
     private String email = "";
     private String avatar = "";
     private String token = "";
-    private List<AddressModel> addressModelList = new ArrayList<>();
+    private final List<AddressModel> addressModelList = new ArrayList<>();
     private int addressIndex = 0;
+    private final List<OrderModel> history = new ArrayList<>();
+    private final List<NotifyModel> notifyList = new ArrayList<>();
 
     private final Cart cart = new Cart();
     private final OrderManager orderManager = new OrderManager();
 
     private UserInfo() {
+        OrderModel orderModel = new OrderModel("98087234");
+        history.add(orderModel);
+        history.add(orderModel);
+        history.add(orderModel);
+        history.add(orderModel);
+        history.add(orderModel);
 
+        NotifyModel notifyModel = new NotifyModel();
+        notifyList.add(notifyModel);
+        notifyList.add(notifyModel);
+        notifyList.add(notifyModel);
+        notifyList.add(notifyModel);
+        notifyList.add(notifyModel);
     }
 
     public static UserInfo getInstance() {
@@ -130,7 +144,7 @@ public class UserInfo {
             return this.addressModelList.get(addressIndex);
         }
 
-        return new AddressModel("Unknown","Unknown");
+        return null;
     }
 
     public void addAddressCurrent(AddressModel addressModel) {
@@ -140,6 +154,14 @@ public class UserInfo {
 
     public OrderManager getOrderManager() {
         return orderManager;
+    }
+
+    public List<OrderModel> getHistory() {
+        return history;
+    }
+
+    public List<NotifyModel> getNotifyList() {
+        return notifyList;
     }
 
     public void clear() {

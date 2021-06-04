@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="120dp">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.75"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Giao hang thanh cong"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_medium"
+            android:maxLines="1"/>
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chuc mung ban don hang thanh cong Chuc mung ban don hang thanh cong Chuc mung ban don hang thanh cong Chuc mung ban don hang thanh cong Chuc mung ban don hang thanh cong Chuc mung ban don hang thanh cong Chuc mung ban don hang thanh cong Chuc mung ban don hang thanh cong Chuc mung ban don hang thanh cong"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular"
+            android:maxLines="3"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/iv_avatar_notification"
+        android:layout_weight="0.25"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:src="@drawable/avatar_restaurant"
+        android:scaleType="fitXY"/>
+</LinearLayout>

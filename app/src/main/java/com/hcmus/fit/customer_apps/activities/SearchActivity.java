@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -23,6 +24,10 @@ import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
 
+    private boolean loading = true;
+    private int previousTotal = 0;
+    private int visibleThreshold = 5;
+    private int currentPage = 0;
     public List<Restaurant> restaurants = new ArrayList<>();
 
     public EditText edtSearch;
@@ -49,7 +54,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 restaurants.clear();
-                RestaurantNetwork.searchRestaurant(getApplicationContext(), rvAdapter, s.toString());
+                RestaurantNetwork.searchRestaurant(getApplicationContext(), rvAdapter, s.toString(), 1);
             }
 
             @Override
@@ -62,6 +67,29 @@ public class SearchActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MerchantActivity.class);
             intent.putExtra("id", restaurants.get(position).getId());
             startActivity(intent);
+        });
+
+        lvSearch.setOnScrollListener(new AbsListView.OnScrollListener(){
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {}
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                        currentPage++;
+                    }
+                }
+                if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                    RestaurantNetwork.searchRestaurant(getApplicationContext(), rvAdapter,
+                            edtSearch.getText().toString(), currentPage);
+                    loading = true;
+                }
+            }
         });
     }
 }

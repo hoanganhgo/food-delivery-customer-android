@@ -52,12 +52,12 @@ public class MySocket {
             JSONObject data = json.getJSONObject("data");
             int status = data.getInt("status");
 
-            if (status == 2) {
-                UserInfo.getInstance().getOrderManager().getActivity().setStatusWaitShipper();
-            } else if (status == 3) {
-                UserInfo.getInstance().getOrderManager().getActivity().setStatusShipping();
+            if (status == 3) {
+                UserInfo.getInstance().getOrderManager().setStatusWaitingDish();
             } else if (status == 4) {
-                UserInfo.getInstance().getOrderManager().getActivity().setStatusArrived();
+                UserInfo.getInstance().getOrderManager().setStatusShipping();
+            } else if (status == 5) {
+                UserInfo.getInstance().getOrderManager().setStatusArrived();
             }
 
         } catch (JSONException e) {
