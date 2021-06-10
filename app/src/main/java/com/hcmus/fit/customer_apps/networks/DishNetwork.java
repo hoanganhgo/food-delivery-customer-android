@@ -132,8 +132,6 @@ public class DishNetwork {
                 return "application/json";
             }
 
-
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();

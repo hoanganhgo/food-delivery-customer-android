@@ -20,6 +20,7 @@ import com.hcmus.fit.customer_apps.contants.API;
 import com.hcmus.fit.customer_apps.models.UserInfo;
 import com.hcmus.fit.customer_apps.utils.JWTUtils;
 import com.hcmus.fit.customer_apps.utils.QueryUtil;
+import com.hcmus.fit.customer_apps.utils.StorageUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,6 +54,7 @@ public class SignInNetwork {
                             JSONObject data = json.getJSONObject("data");
                             String token = data.getString("token");
 
+                            StorageUtil.putString(context, StorageUtil.TOKEN_KEY, token);
                             UserInfo.getInstance().setToken(token);
                             Log.d("token", UserInfo.getInstance().getToken());
 
@@ -72,38 +74,6 @@ public class SignInNetwork {
                 Map<String, String> params = new HashMap<>();
                 params.put("idToken", account.getIdToken());
 
-                return params;
-            }
-        };
-
-        queue.add(req);
-    }
-
-    public static void verifyPhoneNumber(Context context, String userId, String phoneNumber) {
-        RequestQueue queue = Volley.newRequestQueue(context);
-        StringRequest req = new StringRequest(Request.Method.POST, API.SIGN_IN_WITH_PHONE_NUMBER,
-                response -> {
-                    Log.d("phone_number", response);
-                    try {
-                        JSONObject json = new JSONObject(response);
-                        String token = json.getJSONObject("data").getString("token");
-                        UserInfo.getInstance().setToken(token);
-                        Log.d("user", UserInfo.getInstance().getToken());
-
-//                        Intent intent = new Intent(context, MainActivity.class);
-//                        context.startActivity(intent);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                },
-                error -> Log.d("phone_number", error.getMessage()))
-        {
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("userID", userId);
-                params.put("phone", phoneNumber);
                 return params;
             }
         };
@@ -195,6 +165,8 @@ public class SignInNetwork {
                         if (error == 0) {
                             JSONObject data = json.getJSONObject("data");
                             String token = data.getString("token");
+
+                            StorageUtil.putString(context, StorageUtil.TOKEN_KEY, token);
                             UserInfo.getInstance().setToken(token);
                             Intent intent = new Intent(context, MainActivity.class);
                             context.startActivity(intent);
@@ -233,6 +205,8 @@ public class SignInNetwork {
                         if (error == 0) {
                             JSONObject data = json.getJSONObject("data");
                             String token = data.getString("token");
+
+                            StorageUtil.putString(context, StorageUtil.TOKEN_KEY, token);
                             UserInfo.getInstance().setToken(token);
                             Intent intent = new Intent(context, MainActivity.class);
                             context.startActivity(intent);

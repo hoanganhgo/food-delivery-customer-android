@@ -56,4 +56,8 @@
     <string name="option">Tuỳ chọn thêm</string>
     <string name="number">Số lượng</string>
     <string name="add_cart">Thêm vào giỏ</string>
+    <string name="rate_merchant">Đánh giá quán ăn</string>
+    <string name="rate_shipper">Đánh giá shipper</string>
+    <string name="rate">Đánh giá</string>
+    <string name="enter_rating">Nhập đánh giá...</string>
 </resources>

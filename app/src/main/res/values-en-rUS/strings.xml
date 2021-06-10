@@ -42,7 +42,7 @@
     <string name="ship_fee">Ship fee</string>
     <string name="total">Total</string>
     <string name="waiting_dish">Waiting dish</string>
-    <string name="process_order">Process orderModel</string>
+    <string name="process_order">Process order</string>
     <string name="shipping">Shipping</string>
     <string name="arrived">Arrived</string>
     <string name="enter_your_location">Enter your location</string>
@@ -56,4 +56,8 @@
     <string name="option">Option</string>
     <string name="number">Number</string>
     <string name="add_cart">Add cart</string>
+    <string name="rate_merchant">Rate merchant</string>
+    <string name="rate_shipper">Rate shipper</string>
+    <string name="rate">Rate</string>
+    <string name="enter_rating">Enter rating...</string>
 </resources>

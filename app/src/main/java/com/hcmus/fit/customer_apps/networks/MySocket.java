@@ -3,6 +3,9 @@ package com.hcmus.fit.customer_apps.networks;
 import android.util.Log;
 
 import com.hcmus.fit.customer_apps.contants.API;
+import com.hcmus.fit.customer_apps.contants.EventConstant;
+import com.hcmus.fit.customer_apps.models.OrderManager;
+import com.hcmus.fit.customer_apps.models.ShipperModel;
 import com.hcmus.fit.customer_apps.models.UserInfo;
 
 import org.json.JSONException;
@@ -23,9 +26,10 @@ public class MySocket {
                 instance = IO.socket(API.SERVER_SOCKET);
 //                instance = IO.socket("https://87e83c19d91f.ngrok.io");
                 instance.connect();
-                instance.on("connect", onAuthenticate);
-                instance.on("RESPONSE_CHANGE_STATUS_ROOM", statusRoom);
-                instance.on("RESPONSE_SHIPPER_CHANGE_COOR", statusRoom);
+                instance.on(EventConstant.CONNECT, onAuthenticate);
+                instance.on(EventConstant.RESPONSE_CHANGE_STATUS_ROOM, statusRoom);
+                instance.on(EventConstant.RESPONSE_SHIPPER_CHANGE_COOR, statusRoom);
+                instance.on(EventConstant.RESPONSE_UPDATE_SHIPPER, listenUpdateShipper);
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
@@ -34,7 +38,7 @@ public class MySocket {
         return instance;
     }
 
-    private static Emitter.Listener onAuthenticate = args -> {
+    private static final Emitter.Listener onAuthenticate = args -> {
         JSONObject json = new JSONObject();
         Log.d("token", "connect......");
         try {
@@ -45,7 +49,7 @@ public class MySocket {
         }
     };
 
-    private static Emitter.Listener statusRoom = args -> {
+    private static final Emitter.Listener statusRoom = args -> {
         JSONObject json = (JSONObject) args[0];
         Log.d("socket", json.toString());
         try {
@@ -60,6 +64,24 @@ public class MySocket {
                 UserInfo.getInstance().getOrderManager().setStatusArrived();
             }
 
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    };
+
+    private static final Emitter.Listener listenUpdateShipper = args -> {
+        JSONObject json = (JSONObject) args[0];
+        Log.d("socket-shipper", json.toString());
+
+        try {
+            JSONObject data = json.getJSONObject("data");
+            JSONObject shipperJson = data.getJSONObject("infoShipper");
+            String id = shipperJson.getString("_id");
+            String fullName = shipperJson.getString("FullName");
+            String avatar = shipperJson.getString("Avatar");
+            String phone = shipperJson.getString("Phone");
+            ShipperModel shipperModel = new ShipperModel(id, fullName, avatar, phone);
+            UserInfo.getInstance().getOrderManager().updateShipperInfo(shipperModel);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -5,10 +5,13 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +29,7 @@ import com.hcmus.fit.customer_apps.utils.AppUtil;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.zip.Inflater;
 
 public class CartActivity extends AppCompatActivity {
 

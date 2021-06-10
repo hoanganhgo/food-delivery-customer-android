@@ -11,6 +11,7 @@ public class OrderModel {
     private int total;
     private String address;
     private List<DishOrder> dishOrders;
+    private ShipperModel shipper;
     private int status;
 
     public OrderModel(String id) {
@@ -52,5 +53,13 @@ public class OrderModel {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public ShipperModel getShipper() {
+        return shipper;
+    }
+
+    public void setShipper(ShipperModel shipper) {
+        this.shipper = shipper;
     }
 }

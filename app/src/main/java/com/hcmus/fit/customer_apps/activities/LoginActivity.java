@@ -15,10 +15,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.hcmus.fit.customer_apps.MainActivity;
 import com.hcmus.fit.customer_apps.R;
 import com.hcmus.fit.customer_apps.models.UserInfo;
 import com.hcmus.fit.customer_apps.networks.SignInNetwork;
+import com.hcmus.fit.customer_apps.utils.JWTUtils;
 import com.hcmus.fit.customer_apps.utils.NetworkUtil;
+import com.hcmus.fit.customer_apps.utils.StorageUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static com.hcmus.fit.customer_apps.networks.SignInNetwork.googleSignInClient;
 
@@ -40,6 +46,22 @@ public class LoginActivity extends AppCompatActivity {
         btnSignInGg = findViewById(R.id.sign_in_gg);
         btnSignInPhone = findViewById(R.id.sign_in_phone_number);
         btnSignUp = findViewById(R.id.sign_up);
+
+        String token = StorageUtil.getString(this, StorageUtil.TOKEN_KEY);
+        if (token != null) {
+            JSONObject jsonBody = JWTUtils.decoded(token);
+            try {
+                long exp = jsonBody.getLong("exp") * 1000;
+                if (exp > System.currentTimeMillis()) {
+                    UserInfo.getInstance().setToken(token);
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.server_client_id))
@@ -72,26 +94,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//        if (account != null) {
-//            Log.d("google", "OnStart Token: "+account.getIdToken());
-//            Log.d("google", "Display name: " + account.getDisplayName());
-//            Log.d("google", "Give Name: " + account.getGivenName());
-//            Log.d("google", "Family name: " + account.getFamilyName());
-//            Log.d("google", "Email: " + account.getEmail());
-//            Log.d("google","Id: " + account.getId());
-//            Log.d("google","photo: " + account.getPhotoUrl());
-//
-//            UserInfo.getInstance()
-//                    .withUserId(account.getId())
-//                    .withFirstName(account.getFamilyName())
-//                    .withLastName(account.getGivenName())
-//                    .withEmail(account.getEmail())
-//                    .withAvatar(account.getPhotoUrl().toString());
-//
-//            SignInNetwork.sendGGIdTokenToServer(this, account);
-//        }
-
     }
 
     private void handleSignInResult(@NonNull Task<GoogleSignInAccount> completedTask) {
@@ -117,7 +119,6 @@ public class LoginActivity extends AppCompatActivity {
             SignInNetwork.sendGGIdTokenToServer(this, account);
         } catch (ApiException e) {
             Log.w("google", "handleSignInResult:error", e);
-            //updateUI(null);
         }
     }
 

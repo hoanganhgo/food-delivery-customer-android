@@ -30,6 +30,7 @@ public class JWTUtils {
         String id = "";
         try {
             JSONObject body = decoded(token);
+            Log.d("jsonBody", body.toString());
             id = body.getString("id");
         } catch (JSONException e) {
             e.printStackTrace();

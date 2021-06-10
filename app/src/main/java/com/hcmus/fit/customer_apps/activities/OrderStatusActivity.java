@@ -1,19 +1,27 @@
 package com.hcmus.fit.customer_apps.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.hcmus.fit.customer_apps.R;
+import com.hcmus.fit.customer_apps.models.ShipperModel;
 import com.hcmus.fit.customer_apps.models.UserInfo;
+import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -87,5 +95,15 @@ public class OrderStatusActivity extends AppCompatActivity {
         this.lnWay04.setBackgroundColor(Color.BLACK);
         this.tvArrived.setVisibility(View.VISIBLE);
         this.lnShipper.setVisibility(View.VISIBLE);
+    }
+
+    public void updateShipperInfo(ShipperModel shipper) {
+        Picasso.with(this).load(shipper.getAvatar()).into(ivShipperAvatar);
+        tvShipperName.setText(shipper.getFullName());
+        btnCallShipper.setOnClickListener(v -> {
+            Uri number = Uri.parse("tel:" + shipper.getPhone());
+            Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
+            startActivity(callIntent);
+        });
     }
 }
