@@ -24,4 +24,6 @@ public class API {
     public static final String GET_RESTAURANT_DETAIL = SERVER + "/restaurants/{restaurantID}";
     public static final String GET_MENU_RESTAURANT = SERVER + "/restaurants/{restaurantID}/foods";
     public static final String ORDER = SERVER + "/orders";
+    public static final String GET_SHIP_FEE = SERVER + "/orders/shippingfee?restaurant={merchantId}&destination={addressDelivery}";
+    public static final String REVIEW_SHIPPER = SERVER + "/orders/{orderId}/shipperreviews";
 }

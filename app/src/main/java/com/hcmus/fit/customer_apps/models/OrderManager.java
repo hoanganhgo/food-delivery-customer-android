@@ -11,51 +11,110 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.hcmus.fit.customer_apps.R;
 import com.hcmus.fit.customer_apps.activities.OrderStatusActivity;
+import com.hcmus.fit.customer_apps.adapters.OrderAdapter;
+import com.hcmus.fit.customer_apps.networks.DishNetwork;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class OrderManager {
+    private static OrderManager instance = null;
     private OrderStatusActivity activity;
-    private OrderModel orderModel;
+    private final List<OrderModel> orderList = new ArrayList<>();
+    private OrderAdapter orderAdapter;
 
-    public OrderManager() {
+    private OrderManager() {
+    }
+
+    public static OrderManager getInstance() {
+        if (instance == null) {
+            instance = new OrderManager();
+        }
+
+        return instance;
     }
 
     public void setActivity(OrderStatusActivity activity) {
         this.activity = activity;
     }
 
-    public OrderModel getOrderModel() {
-        return orderModel;
+    public void setOrderAdapter(OrderAdapter orderAdapter) {
+        this.orderAdapter = orderAdapter;
     }
 
-    public void setOrderModel(OrderModel orderModel) {
-        this.orderModel = orderModel;
+    public void addOrderModel(OrderModel orderModel) {
+        this.orderList.add(orderModel);
     }
 
-    public void setStatusWaitingDish() {
-        if (activity != null && !activity.isDestroyed()) {
-            activity.runOnUiThread(() -> activity.setStatusWaitingDish());
+    public int getOrderListSize() {
+        return this.orderList.size();
+    }
+
+    public OrderModel getOrderModel(int index) {
+        return this.orderList.get(index);
+    }
+
+    public OrderModel getOrderModel(String orderId) {
+        for (OrderModel orderModel : this.orderList) {
+            if (orderModel.getId().equals(orderId)) {
+                return orderModel;
+            }
         }
+
+        return null;
     }
 
-    public void setStatusShipping() {
-        if (activity != null && !activity.isDestroyed()) {
-            activity.runOnUiThread(() -> activity.setStatusShipping());
-        }
-    }
+    public void removeOrderModel(String orderId) {
+        Iterator<OrderModel> it = this.orderList.iterator();
 
-    public void setStatusArrived() {
-        if (activity != null && !activity.isDestroyed()) {
-            activity.runOnUiThread(() -> activity.setStatusArrived());
-            try {
-                Thread.sleep(1000);
-                activity.runOnUiThread(this::showRating);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        while (it.hasNext()) {
+            if (it.next().getId().equals(orderId)) {
+                it.remove();
             }
         }
     }
 
-    public void showRating() {
+    public void setStatusOrder(String orderId, int status) {
+        for (OrderModel orderModel : this.orderList) {
+            if (orderModel.getId().equals(orderId)) {
+                orderModel.setStatus(status);
+            }
+        }
+    }
+
+    public boolean activityActive(String orderId) {
+        return activity != null && !activity.isDestroyed() && orderId.equals(activity.orderId);
+    }
+
+    public void setStatusWaitingDish(String orderId) {
+        if (activityActive(orderId)) {
+            activity.runOnUiThread(() -> activity.setStatusWaitingDish());
+        }
+    }
+
+    public void setStatusShipping(String orderId) {
+        if (activityActive(orderId)) {
+            activity.runOnUiThread(() -> activity.setStatusShipping());
+        }
+    }
+
+    public void setStatusArrived(String orderId) {
+        if (activityActive(orderId)) {
+            activity.runOnUiThread(() -> activity.setStatusArrived());
+
+            try {
+                Thread.sleep(1000);
+                activity.runOnUiThread(() -> showRating(orderId));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            removeOrderModel(orderId);
+        }
+    }
+
+    public void showRating(String orderId) {
         AlertDialog alertDialog = new AlertDialog.Builder(this.activity).create();
         LayoutInflater inflater = LayoutInflater.from(this.activity);
         View rateView = inflater.inflate(R.layout.alert_rating, null);
@@ -78,6 +137,11 @@ public class OrderManager {
             }
         });
 
+        btnRating.setOnClickListener(v -> {
+            DishNetwork.ratingShipper(this.activity, orderId, edtRating.getText().toString(), (int) ratingBar.getRating());
+            alertDialog.dismiss();
+        });
+
         btnCancel.setOnClickListener(v -> {
             alertDialog.dismiss();
         });
@@ -86,10 +150,15 @@ public class OrderManager {
         alertDialog.show();
     }
 
-    public void updateShipperInfo(ShipperModel shipper) {
-        orderModel.setShipper(shipper);
+    public void updateShipperInfo(String orderId, ShipperModel shipper) {
+        for (OrderModel orderModel : this.orderList) {
+            if (orderModel.getId().equals(orderId)) {
+                orderModel.setShipper(shipper);
+                break;
+            }
+        }
 
-        if (activity != null && !activity.isDestroyed()) {
+        if (activityActive(orderId)) {
             activity.runOnUiThread(() -> activity.updateShipperInfo(shipper));
         }
     }

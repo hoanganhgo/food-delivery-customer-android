@@ -16,7 +16,6 @@
     <string name="notify_phone_number">Số điện thoại phải có 10 ký tự</string>
     <string name="home">Trang Chủ</string>
     <string name="bill">Hoá Đơn</string>
-    <string name="favorite">Yêu Thích</string>
     <string name="notifications">Thông Báo</string>
     <string name="setting">Cài Đặt</string>
     <string name="notify_sign_out">Đăng xuất thành công</string>
@@ -60,4 +59,9 @@
     <string name="rate_shipper">Đánh giá shipper</string>
     <string name="rate">Đánh giá</string>
     <string name="enter_rating">Nhập đánh giá...</string>
+    <string name="order">Đơn hàng</string>
+    <string name="sign_out">Đăng Xuất</string>
+    <string name="payment">Thanh toán</string>
+    <string name="cash">Tiền mặt</string>
+    <string name="zalo_pay">ZaloPay</string>
 </resources>

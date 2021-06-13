@@ -9,9 +9,12 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Cart {
+    public String merchant;
+    public int shipFee;
     public DishModel dishSelect = null;
     public int numSelect = 1;
     private final List<DishOrder> dishList = new ArrayList<>();
+    private int payment = 0;   //0: cash, 1: zaloPay
 
     public Cart() {
 
@@ -27,6 +30,10 @@ public class Cart {
 
         DishOrder dishOrder = new DishOrder(dishModel, number);
         this.dishList.add(dishOrder);
+    }
+
+    public void copyDishList(List<DishOrder> dishOrderList) {
+        dishOrderList.addAll(dishList);
     }
 
     public boolean compare2Dish(DishModel dish1, DishModel dish2) {
@@ -66,6 +73,14 @@ public class Cart {
 
     public int getDishListSize() {
         return this.dishList.size();
+    }
+
+    public int getPayment() {
+        return payment;
+    }
+
+    public void setPayment(int payment) {
+        this.payment = payment;
     }
 
     public int getTotal() {

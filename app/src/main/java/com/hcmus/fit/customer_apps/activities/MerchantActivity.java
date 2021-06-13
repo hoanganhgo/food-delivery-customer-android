@@ -65,6 +65,8 @@ public class MerchantActivity extends AppCompatActivity {
             Intent intentCart = new Intent(this, CartActivity.class);
             startActivity(intentCart);
         });
+
+        UserInfo.getInstance().getCart().merchant = model.getId();
     }
 
     @Override

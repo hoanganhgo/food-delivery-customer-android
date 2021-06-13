@@ -12,9 +12,9 @@
         android:title="@string/bill" />
 
     <item
-        android:id="@+id/navigation_favorite"
-        android:icon="@drawable/ic_heart"
-        android:title="@string/favorite" />
+        android:id="@+id/navigation_order"
+        android:icon="@drawable/ic_delivery"
+        android:title="@string/order" />
 
     <item
         android:id="@+id/navigation_notifications"

@@ -18,10 +18,10 @@
         tools:layout="@layout/fragment_bill" />
 
     <fragment
-        android:id="@+id/navigation_favorite"
-        android:name="com.hcmus.fit.customer_apps.ui.FavoriteFragment"
-        android:label="@string/favorite"
-        tools:layout="@layout/fragment_favorite" />
+        android:id="@+id/navigation_order"
+        android:name="com.hcmus.fit.customer_apps.ui.OrderFragment"
+        android:label="@string/order"
+        tools:layout="@layout/fragment_order" />
 
     <fragment
         android:id="@+id/navigation_notifications"

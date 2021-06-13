@@ -1,5 +1,7 @@
 package com.hcmus.fit.customer_apps.networks;
 
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 
 import com.hcmus.fit.customer_apps.contants.API;
@@ -28,7 +30,7 @@ public class MySocket {
                 instance.connect();
                 instance.on(EventConstant.CONNECT, onAuthenticate);
                 instance.on(EventConstant.RESPONSE_CHANGE_STATUS_ROOM, statusRoom);
-                instance.on(EventConstant.RESPONSE_SHIPPER_CHANGE_COOR, statusRoom);
+                instance.on(EventConstant.RESPONSE_SHIPPER_CHANGE_COOR, shipperMove);
                 instance.on(EventConstant.RESPONSE_UPDATE_SHIPPER, listenUpdateShipper);
             } catch (URISyntaxException e) {
                 e.printStackTrace();
@@ -51,17 +53,19 @@ public class MySocket {
 
     private static final Emitter.Listener statusRoom = args -> {
         JSONObject json = (JSONObject) args[0];
-        Log.d("socket", json.toString());
+        Log.d("socket-status", json.toString());
         try {
             JSONObject data = json.getJSONObject("data");
             int status = data.getInt("status");
+            String orderId = data.getString("orderID");
+            OrderManager.getInstance().setStatusOrder(orderId, status);
 
             if (status == 3) {
-                UserInfo.getInstance().getOrderManager().setStatusWaitingDish();
+                OrderManager.getInstance().setStatusWaitingDish(orderId);
             } else if (status == 4) {
-                UserInfo.getInstance().getOrderManager().setStatusShipping();
+                OrderManager.getInstance().setStatusShipping(orderId);
             } else if (status == 5) {
-                UserInfo.getInstance().getOrderManager().setStatusArrived();
+                OrderManager.getInstance().setStatusArrived(orderId);
             }
 
         } catch (JSONException e) {
@@ -75,15 +79,38 @@ public class MySocket {
 
         try {
             JSONObject data = json.getJSONObject("data");
+            String orderId = data.getString("orderID");
+            orderIdTemp = orderId;
             JSONObject shipperJson = data.getJSONObject("infoShipper");
             String id = shipperJson.getString("_id");
             String fullName = shipperJson.getString("FullName");
             String avatar = shipperJson.getString("Avatar");
             String phone = shipperJson.getString("Phone");
             ShipperModel shipperModel = new ShipperModel(id, fullName, avatar, phone);
-            UserInfo.getInstance().getOrderManager().updateShipperInfo(shipperModel);
+            OrderManager.getInstance().updateShipperInfo(orderId, shipperModel);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     };
+
+    private static String orderIdTemp;
+
+    private static final Emitter.Listener shipperMove = args -> {
+        JSONObject json = (JSONObject) args[0];
+        Log.d("socket-shipper", json.toString());
+        try {
+            JSONObject data = json.getJSONObject("data");
+            double latitude = data.getDouble("lat");
+            double longitude = data.getDouble("lng");
+
+            if (orderIdTemp != null) {
+                ShipperModel shipper = OrderManager.getInstance().getOrderModel(orderIdTemp).getShipper();
+                shipper.setLocation(latitude, longitude);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    };
+
 }

@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <uses-feature android:name="android.hardware.location.gps" />
     <uses-feature android:name="android.hardware.location.network" />
@@ -19,6 +20,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CustomerApps" >
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
         <activity android:name=".activities.LoginActivity">
             <intent-filter>
@@ -35,6 +40,7 @@
         <activity android:name=".activities.SearchActivity"/>
         <activity android:name=".activities.OrderStatusActivity"/>
         <activity android:name=".activities.MerchantListActivity"/>
+        <activity android:name=".activities.MapsActivity"/>
     </application>
 
 </manifest>

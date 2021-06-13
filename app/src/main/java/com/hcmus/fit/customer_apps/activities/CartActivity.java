@@ -29,16 +29,18 @@ import com.hcmus.fit.customer_apps.utils.AppUtil;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.zip.Inflater;
 
 public class CartActivity extends AppCompatActivity {
 
     private ListView lvDishOrder;
     private TextView tvPrice;
     private TextView tvTotal;
+    public TextView tvShipFee;
     private Button btnOrder;
     private TextView tvAddress;
     private Button btnEditLocation;
+    private Button btnCash;
+    private Button btnZaloPay;
 
     private DishOrderAdapter dishOrderAdapter;
 
@@ -50,9 +52,12 @@ public class CartActivity extends AppCompatActivity {
         lvDishOrder = findViewById(R.id.lv_dish_order);
         tvPrice = findViewById(R.id.tv_price);
         tvTotal = findViewById(R.id.tv_total);
+        tvShipFee = findViewById(R.id.tv_ship_fee);
         tvAddress = findViewById(R.id.tv_address_delivery);
         btnOrder = findViewById(R.id.btn_order);
         btnEditLocation = findViewById(R.id.btn_edit_location);
+        btnCash = findViewById(R.id.btn_pay_cash);
+        btnZaloPay = findViewById(R.id.btn_pay_zalo);
 
         if (UserInfo.getInstance().getAddressCurrent() != null) {
             tvAddress.setText(UserInfo.getInstance().getAddressCurrent().getFullAddress());
@@ -84,6 +89,8 @@ public class CartActivity extends AppCompatActivity {
 
                             UserInfo.getInstance().addAddressCurrent(addressModel);
                             tvAddress.setText(input.getText().toString());
+
+                            DishNetwork.getShipFee(this);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -97,8 +104,28 @@ public class CartActivity extends AppCompatActivity {
 
         updateCart();
 
+        if (UserInfo.getInstance().getAddressCurrent() != null) {
+            DishNetwork.getShipFee(this);
+        }
+
         dishOrderAdapter = new DishOrderAdapter(this);
         lvDishOrder.setAdapter(dishOrderAdapter);
+
+        btnCash.setOnClickListener(v -> {
+            if (UserInfo.getInstance().getCart().getPayment() == 1) {
+                UserInfo.getInstance().getCart().setPayment(0);
+                btnCash.setBackground(getResources().getDrawable(R.drawable.bg_active_primary));
+                btnZaloPay.setBackground(getResources().getDrawable(R.drawable.bg_border_primary));
+            }
+        });
+
+        btnZaloPay.setOnClickListener(v -> {
+            if (UserInfo.getInstance().getCart().getPayment() == 0) {
+                UserInfo.getInstance().getCart().setPayment(1);
+                btnZaloPay.setBackground(getResources().getDrawable(R.drawable.bg_active_primary));
+                btnCash.setBackground(getResources().getDrawable(R.drawable.bg_border_primary));
+            }
+        });
 
         btnOrder.setOnClickListener(v -> {
             UserInfo userInfo = UserInfo.getInstance();
@@ -112,9 +139,12 @@ public class CartActivity extends AppCompatActivity {
                 return;
             }
 
-            DishNetwork.order(this, UserInfo.getInstance().getCart());
-            Intent intent = new Intent(this, OrderStatusActivity.class);
-            startActivity(intent);
+            if (UserInfo.getInstance().getCart().getPayment() == 0) {
+                UserInfo.getInstance().getCart().removeDishOrderEmpty();
+                DishNetwork.order(this, UserInfo.getInstance().getCart());
+            } else if (UserInfo.getInstance().getCart().getPayment() == 1) {
+                // zalo payment
+            }
         });
     }
 
@@ -126,7 +156,8 @@ public class CartActivity extends AppCompatActivity {
 
     public void updateCart() {
         int price = UserInfo.getInstance().getCart().getTotal();
+        int shipFee = UserInfo.getInstance().getCart().shipFee;
         tvPrice.setText(AppUtil.convertCurrency(price));
-        tvTotal.setText(AppUtil.convertCurrency(price + 10000));
+        tvTotal.setText(AppUtil.convertCurrency(price + shipFee));
     }
 }

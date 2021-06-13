@@ -11,6 +11,7 @@
     <color name="transparent">#00FFFFFF</color>
     <color name="black_22">#22000000</color>
     <color name="grey">#909090</color>
+    <color name="grey_bg">#E5E5E5</color>
     <color name="grey_6">#F6F6F6</color>
     <color name="blue">#3F51B5</color>
 </resources>

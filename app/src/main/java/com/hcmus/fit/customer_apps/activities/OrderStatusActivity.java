@@ -1,31 +1,36 @@
 package com.hcmus.fit.customer_apps.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.hcmus.fit.customer_apps.R;
+import com.hcmus.fit.customer_apps.models.OrderManager;
+import com.hcmus.fit.customer_apps.models.OrderModel;
 import com.hcmus.fit.customer_apps.models.ShipperModel;
-import com.hcmus.fit.customer_apps.models.UserInfo;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class OrderStatusActivity extends AppCompatActivity {
+
+    public String orderId;
+    private OrderModel orderModel;
 
     private ImageView ivOrderStatus;
     private LinearLayout lnWay01;
@@ -39,6 +44,7 @@ public class OrderStatusActivity extends AppCompatActivity {
     private TextView tvArrived;
     private CircleImageView ivShipperAvatar;
     private TextView tvShipperName;
+    private ImageButton btnMapShipper;
     private ImageButton btnMessenger;
     private ImageButton btnCallShipper;
 
@@ -59,10 +65,16 @@ public class OrderStatusActivity extends AppCompatActivity {
         tvArrived = findViewById(R.id.tv_lb_arrived);
         ivShipperAvatar = findViewById(R.id.iv_shipper_avatar);
         tvShipperName = findViewById(R.id.tv_shipper_name);
+        btnMapShipper = findViewById(R.id.btn_shipper_location);
         btnMessenger = findViewById(R.id.btn_messenger);
         btnCallShipper = findViewById(R.id.btn_call_shipper);
 
-        UserInfo.getInstance().getOrderManager().setActivity(this);
+        Intent intent = getIntent();
+        this.orderId = intent.getStringExtra("orderId");
+        this.orderModel = OrderManager.getInstance().getOrderModel(this.orderId);
+        this.updateStatusOrder();
+
+        OrderManager.getInstance().setActivity(this);
         setStatusProcessOrder();
     }
 
@@ -79,6 +91,17 @@ public class OrderStatusActivity extends AppCompatActivity {
         this.lnWay02.setBackgroundColor(Color.BLACK);
         this.tvWaitingDish.setVisibility(View.VISIBLE);
         this.lnShipper.setVisibility(View.VISIBLE);
+
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        int sdk = android.os.Build.VERSION.SDK_INT;
+        if (sdk < Build.VERSION_CODES.O) {
+            if (vibrator.hasVibrator()) {
+                vibrator.vibrate(500); // for 500 ms
+            }
+        } else {
+            VibrationEffect effect = VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE);
+            vibrator.vibrate(effect);
+        }
     }
 
     public void setStatusShipping() {
@@ -98,12 +121,33 @@ public class OrderStatusActivity extends AppCompatActivity {
     }
 
     public void updateShipperInfo(ShipperModel shipper) {
-        Picasso.with(this).load(shipper.getAvatar()).into(ivShipperAvatar);
+        Picasso.with(this).load(shipper.getAvatarUrl()).into(ivShipperAvatar);
         tvShipperName.setText(shipper.getFullName());
         btnCallShipper.setOnClickListener(v -> {
             Uri number = Uri.parse("tel:" + shipper.getPhone());
             Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
             startActivity(callIntent);
         });
+
+        btnMapShipper.setOnClickListener(v -> {
+            Intent mapIntent = new Intent(this, MapsActivity.class);
+            mapIntent.putExtra("orderId", this.orderId);
+            startActivity(mapIntent);
+        });
     }
+
+    public void updateStatusOrder() {
+        if (this.orderModel == null) {
+            return;
+        }
+
+        if (this.orderModel.getStatus() == 3) {
+            setStatusWaitingDish();
+        } else if (this.orderModel.getStatus() == 4) {
+            setStatusShipping();
+        } else if (this.orderModel.getStatus() == 5) {
+            setStatusArrived();
+        }
+    }
+
 }

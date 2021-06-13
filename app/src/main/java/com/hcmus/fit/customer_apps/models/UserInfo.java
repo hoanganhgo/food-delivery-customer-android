@@ -1,5 +1,7 @@
 package com.hcmus.fit.customer_apps.models;
 
+import com.google.android.gms.maps.GoogleMap;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ public class UserInfo {
     private String id = "";
     private String firstName = "";
     private String lastName = "";
+    private String fullName = "";
     private String phoneNumber = "0123456789";
     private String email = "";
     private String avatar = "";
@@ -19,7 +22,6 @@ public class UserInfo {
     private final List<NotifyModel> notifyList = new ArrayList<>();
 
     private final Cart cart = new Cart();
-    private final OrderManager orderManager = new OrderManager();
 
     private UserInfo() {
         OrderModel orderModel = new OrderModel("98087234");
@@ -91,6 +93,14 @@ public class UserInfo {
         return lastName;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -150,10 +160,6 @@ public class UserInfo {
     public void addAddressCurrent(AddressModel addressModel) {
         this.addressModelList.add(addressModel);
         this.addressIndex = this.addressModelList.size() - 1;
-    }
-
-    public OrderManager getOrderManager() {
-        return orderManager;
     }
 
     public List<OrderModel> getHistory() {

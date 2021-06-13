@@ -253,8 +253,15 @@ public class SignInNetwork {
                             JSONObject user = data.getJSONObject("user");
                             String id = user.getString("id");
                             String phone = user.getString("Phone");
+                            String email = user.getString("Email");
+                            String avatar = user.getString("Avatar");
+                            String fullName = user.getString("FullName");
+
                             UserInfo.getInstance().setId(id);
                             UserInfo.getInstance().setPhoneNumber(phone);
+                            UserInfo.getInstance().setEmail(email);
+                            UserInfo.getInstance().setAvatar(avatar);
+                            UserInfo.getInstance().setFullName(fullName);
                         }
 
                     } catch (JSONException e) {
