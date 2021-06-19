@@ -2,7 +2,6 @@ package com.hcmus.fit.customer_apps.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ import com.hcmus.fit.customer_apps.models.Cart;
 import com.hcmus.fit.customer_apps.models.DishModel;
 import com.hcmus.fit.customer_apps.models.ItemModel;
 import com.hcmus.fit.customer_apps.models.OptionModel;
-import com.hcmus.fit.customer_apps.models.OrderModel;
 import com.hcmus.fit.customer_apps.models.UserInfo;
 import com.hcmus.fit.customer_apps.utils.AppUtil;
 import com.hcmus.fit.customer_apps.utils.WidgetUtil;
@@ -79,7 +77,7 @@ public class DishAdapter extends BaseAdapter {
         holder.tvName.setText(dishModel.getName());
         Picasso.with(convertView.getContext()).load(dishModel.getAvatar()).into(holder.ivAvatar);
         holder.tvSoldNum.setText(String.valueOf(dishModel.getTotalOrder()));
-        holder.tvPrice.setText(String.valueOf(dishModel.getPrice()));
+        holder.tvPrice.setText(AppUtil.convertCurrency(dishModel.getPrice()));
 
         MerchantActivity merchant = (MerchantActivity) convertView.getContext();
         holder.btnAddCart.setOnClickListener(v -> {

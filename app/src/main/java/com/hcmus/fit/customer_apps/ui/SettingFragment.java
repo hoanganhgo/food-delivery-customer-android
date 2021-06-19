@@ -48,13 +48,13 @@ public class SettingFragment extends Fragment {
         btnPhone.setText(UserInfo.getInstance().getPhoneNumber());
 
         btnSignOut.setOnClickListener(v -> {
-//            googleSignInClient.signOut()
-//                    .addOnCompleteListener(getActivity(), (OnCompleteListener<Void>) task -> {
-//                        Log.d("google", "Sign out GG success");
-//                        UserInfo.getInstance().clear();
-//                        getActivity().finish();
-//                        Toast.makeText(getActivity(), R.string.notify_sign_out,Toast.LENGTH_LONG).show();
-//                    });
+            googleSignInClient.signOut()
+                    .addOnCompleteListener(getActivity(), (OnCompleteListener<Void>) task -> {
+                        Log.d("google", "Sign out GG success");
+                        UserInfo.getInstance().clear();
+                        getActivity().finish();
+                        Toast.makeText(getActivity(), R.string.notify_sign_out,Toast.LENGTH_LONG).show();
+                    });
         });
 
         return root;

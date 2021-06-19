@@ -233,6 +233,7 @@ public class SignInNetwork {
     }
 
     public static void getUserInfo(Context context) {
+        Log.d("token", UserInfo.getInstance().getToken());
         RequestQueue queue = Volley.newRequestQueue(context);
 
         Map<String, String> params = new HashMap<>();

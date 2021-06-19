@@ -72,10 +72,9 @@ public class OrderStatusActivity extends AppCompatActivity {
         Intent intent = getIntent();
         this.orderId = intent.getStringExtra("orderId");
         this.orderModel = OrderManager.getInstance().getOrderModel(this.orderId);
-        this.updateStatusOrder();
 
         OrderManager.getInstance().setActivity(this);
-        setStatusProcessOrder();
+        this.updateStatusOrder();
     }
 
     public void setStatusProcessOrder() {
@@ -133,6 +132,12 @@ public class OrderStatusActivity extends AppCompatActivity {
             Intent mapIntent = new Intent(this, MapsActivity.class);
             mapIntent.putExtra("orderId", this.orderId);
             startActivity(mapIntent);
+        });
+
+        btnMessenger.setOnClickListener(v -> {
+            Intent messageIntent = new Intent(this, ChatActivity.class);
+            messageIntent.putExtra("shipperId", shipper.getId());
+            startActivity(messageIntent);
         });
     }
 

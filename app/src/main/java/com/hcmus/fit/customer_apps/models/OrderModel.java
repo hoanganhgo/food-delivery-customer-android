@@ -1,6 +1,7 @@
 package com.hcmus.fit.customer_apps.models;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class OrderModel {
@@ -15,8 +16,10 @@ public class OrderModel {
     private int total;
     private String address;
     private double distance;
+    private Calendar calendar;
     private List<DishOrder> dishOrders = new ArrayList<>();
     private ShipperModel shipper;
+    private int paymentMethod = 0;    //0: cash,  1: zalopay
     private int status;
 
     public OrderModel(String id) {
@@ -102,5 +105,29 @@ public class OrderModel {
 
     public void setShipper(ShipperModel shipper) {
         this.shipper = shipper;
+    }
+
+    public Calendar getCalendar() {
+        return calendar;
+    }
+
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
+    }
+
+    public String getRestaurantPhone() {
+        return restaurantPhone;
+    }
+
+    public String getAvatarRestaurant() {
+        return avatarRestaurant;
+    }
+
+    public int getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(int paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 }

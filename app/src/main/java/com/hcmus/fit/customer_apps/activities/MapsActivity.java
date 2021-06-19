@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.hcmus.fit.customer_apps.R;
 import com.hcmus.fit.customer_apps.models.OrderManager;
 import com.hcmus.fit.customer_apps.models.ShipperModel;
+import com.hcmus.fit.customer_apps.models.UserInfo;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -51,27 +52,38 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(@NotNull GoogleMap googleMap) {
         ggMap = googleMap;
 
-        Log.d("GG Map", "Draw maps");
+        // Shipper location
         LatLng shipperLocation = new LatLng(shipper.getLatitude(), shipper.getLongitude());
 
         BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(shipper.getAvatar());
-        MarkerOptions market = new MarkerOptions().position(shipperLocation).icon(icon);
+        MarkerOptions marketShipper = new MarkerOptions().position(shipperLocation).icon(icon);
+        ggMap.addMarker(marketShipper);
 
-        ggMap.addMarker(market);
+        // User location
+        LatLng userLocation = new LatLng(UserInfo.getInstance().getAddressCurrent().getLatitude(),
+                UserInfo.getInstance().getAddressCurrent().getLongitude());
+        MarkerOptions marketUser = new MarkerOptions().position(userLocation).title("Your location");
+        ggMap.addMarker(marketUser);
 
         ggMap.moveCamera(CameraUpdateFactory.newLatLngZoom(shipperLocation, 15));
         ggMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
     }
 
     public void updateLocation() {
+        //Shipper location
         LatLng shipperLocation = new LatLng(shipper.getLatitude(), shipper.getLongitude());
-
         BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(shipper.getAvatar());
-        MarkerOptions market = new MarkerOptions().position(shipperLocation).icon(icon);
+        MarkerOptions marketShipper = new MarkerOptions().position(shipperLocation).icon(icon);
+
+        // User location
+        LatLng userLocation = new LatLng(UserInfo.getInstance().getAddressCurrent().getLatitude(),
+                UserInfo.getInstance().getAddressCurrent().getLongitude());
+        MarkerOptions marketUser = new MarkerOptions().position(userLocation).title("Your location");
 
         this.runOnUiThread(() -> {
             ggMap.clear();
-            ggMap.addMarker(market);
+            ggMap.addMarker(marketShipper);
+            ggMap.addMarker(marketUser);
         });
     }
 

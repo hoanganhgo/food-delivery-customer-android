@@ -17,6 +17,7 @@ public class ShipperModel {
     private double latitude;
     private double longitude;
     private MapsActivity mapsActivity;
+    private ChatBox chatBox;
 
     public ShipperModel(String id, String fullName, String avatarUrl, String phone) {
         this.id = id;
@@ -69,6 +70,14 @@ public class ShipperModel {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    public ChatBox getChatBox() {
+        return chatBox;
+    }
+
+    public void setChatBox(ChatBox chatBox) {
+        this.chatBox = chatBox;
     }
 
     public void setMapsActivity(MapsActivity mapsActivity) {

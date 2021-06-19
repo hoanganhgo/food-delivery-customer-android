@@ -1,5 +1,6 @@
 package com.hcmus.fit.customer_apps.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -30,6 +31,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import vn.zalopay.sdk.ZaloPaySDK;
+
 public class CartActivity extends AppCompatActivity {
 
     private ListView lvDishOrder;
@@ -58,6 +61,8 @@ public class CartActivity extends AppCompatActivity {
         btnEditLocation = findViewById(R.id.btn_edit_location);
         btnCash = findViewById(R.id.btn_pay_cash);
         btnZaloPay = findViewById(R.id.btn_pay_zalo);
+
+        UserInfo.getInstance().getCart().setActivity(this);
 
         if (UserInfo.getInstance().getAddressCurrent() != null) {
             tvAddress.setText(UserInfo.getInstance().getAddressCurrent().getFullAddress());
@@ -115,7 +120,7 @@ public class CartActivity extends AppCompatActivity {
             if (UserInfo.getInstance().getCart().getPayment() == 1) {
                 UserInfo.getInstance().getCart().setPayment(0);
                 btnCash.setBackground(getResources().getDrawable(R.drawable.bg_active_primary));
-                btnZaloPay.setBackground(getResources().getDrawable(R.drawable.bg_border_primary));
+                btnZaloPay.setBackground(getResources().getDrawable(R.drawable.bg_no_active_primary));
             }
         });
 
@@ -123,7 +128,7 @@ public class CartActivity extends AppCompatActivity {
             if (UserInfo.getInstance().getCart().getPayment() == 0) {
                 UserInfo.getInstance().getCart().setPayment(1);
                 btnZaloPay.setBackground(getResources().getDrawable(R.drawable.bg_active_primary));
-                btnCash.setBackground(getResources().getDrawable(R.drawable.bg_border_primary));
+                btnCash.setBackground(getResources().getDrawable(R.drawable.bg_no_active_primary));
             }
         });
 
@@ -139,12 +144,13 @@ public class CartActivity extends AppCompatActivity {
                 return;
             }
 
-            if (UserInfo.getInstance().getCart().getPayment() == 0) {
-                UserInfo.getInstance().getCart().removeDishOrderEmpty();
-                DishNetwork.order(this, UserInfo.getInstance().getCart());
-            } else if (UserInfo.getInstance().getCart().getPayment() == 1) {
-                // zalo payment
+            if (userInfo.getCart().shipFee == 0) {
+                Toast.makeText(this, getResources().getString(R.string.notify_no_fee_ship), Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            UserInfo.getInstance().getCart().removeDishOrderEmpty();
+            DishNetwork.order(this, UserInfo.getInstance().getCart());
         });
     }
 
@@ -152,6 +158,12 @@ public class CartActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         UserInfo.getInstance().getCart().removeDishOrderEmpty();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ZaloPaySDK.getInstance().onResult(data);
     }
 
     public void updateCart() {

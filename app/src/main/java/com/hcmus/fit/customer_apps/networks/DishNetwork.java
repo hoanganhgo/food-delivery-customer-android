@@ -1,22 +1,19 @@
 package com.hcmus.fit.customer_apps.networks;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hcmus.fit.customer_apps.activities.CartActivity;
 import com.hcmus.fit.customer_apps.activities.MerchantActivity;
 import com.hcmus.fit.customer_apps.activities.OrderStatusActivity;
 import com.hcmus.fit.customer_apps.adapters.DishAdapter;
+import com.hcmus.fit.customer_apps.business.MyZaloPayListener;
 import com.hcmus.fit.customer_apps.contants.API;
 import com.hcmus.fit.customer_apps.models.Cart;
 import com.hcmus.fit.customer_apps.models.DishModel;
@@ -26,18 +23,17 @@ import com.hcmus.fit.customer_apps.models.UserInfo;
 import com.hcmus.fit.customer_apps.utils.AppUtil;
 import com.hcmus.fit.customer_apps.utils.QueryUtil;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPaySDK;
 
 public class DishNetwork {
     public static void getRestaurantDetail(MerchantActivity context, String id, DishAdapter adapter) {
@@ -102,24 +98,40 @@ public class DishNetwork {
                             String id = data.getString("id");
                             OrderModel orderModel = new OrderModel(id);
                             orderModel.setAddress(data.getString("Address"));
-                            orderModel.setAddress("url_avatar");
-                            orderModel.setRestaurantName("Quan co Tu");
-                            orderModel.setRestaurantAddress("123, Ly Thuong Kiet,...");
+                            orderModel.setAvatarRestaurant(data.getString("Avatar"));
+                            orderModel.setRestaurantName(data.getString("Name"));
+                            orderModel.setRestaurantAddress(data.getString("FullAddress"));
                             orderModel.setRestaurantId(data.getString("Restaurant"));
                             orderModel.setRestaurantPhone(data.getString("Phone"));
                             orderModel.setShipFee(data.getInt("ShippingFee"));
                             orderModel.setSubTotal(data.getInt("Subtotal"));
                             orderModel.setTotal(data.getInt("Total"));
                             orderModel.setDistance( data.getDouble("Distance"));
+                            Calendar calendar = AppUtil.parseCalendar( data.getString("CreatedAt"));
+                            orderModel.setCalendar(calendar);
                             UserInfo.getInstance().getCart().copyDishList( orderModel.getDishOrders());
-                            OrderManager.getInstance().addOrderModel(orderModel);
 
-                            UserInfo.getInstance().getCart().clear();
-                            context.onBackPressed();
+                            if (data.isNull("paymentInfo")) {
+                                OrderManager.getInstance().addOrderModel(orderModel);
+                                UserInfo.getInstance().getCart().clear();
 
-                            Intent intent = new Intent(context, OrderStatusActivity.class);
-                            intent.putExtra("orderId", id);
-                            context.startActivity(intent);
+                                context.onBackPressed();
+
+                                Intent intent = new Intent(context, OrderStatusActivity.class);
+                                intent.putExtra("orderId", id);
+                                context.startActivity(intent);
+                            } else {
+                                orderModel.setPaymentMethod(1);
+                                UserInfo.getInstance().getCart().setOrderModelTemp(orderModel);
+
+                                JSONObject paymentJson = data.getJSONObject("paymentInfo");
+                                String zpTranstoken = paymentJson.getString("zp_trans_token");
+
+                                ZaloPaySDK.init(2554, Environment.SANDBOX);
+
+                                // Gọi hàm thanh toán
+                                ZaloPaySDK.getInstance().payOrder(context, zpTranstoken, null, new MyZaloPayListener());
+                            }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -144,7 +156,7 @@ public class DishNetwork {
                     json.put("phone", userInfo.getPhoneNumber());
                     json.put("longitude", userInfo.getAddressCurrent().getLongitude());
                     json.put("latitude", userInfo.getAddressCurrent().getLatitude());
-                    json.put("method", 0);
+                    json.put("method", cart.getPayment());
                     Log.d("order-send", json.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -182,7 +194,8 @@ public class DishNetwork {
                     Log.d("feeShip", response.toString());
                     try {
                         JSONObject json = new JSONObject(response);
-                        int feeShip = json.getInt("fee");
+                        JSONObject data = json.getJSONObject("data");
+                        int feeShip = data.getInt("fee");
                         UserInfo.getInstance().getCart().shipFee = feeShip;
                         context.tvShipFee.setText( AppUtil.convertCurrency(feeShip));
                         context.updateCart();
@@ -198,46 +211,35 @@ public class DishNetwork {
     public static void ratingShipper(OrderStatusActivity context, String orderId, String content, int stars) {
         RequestQueue queue = Volley.newRequestQueue(context);
 
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-
-        builder.addTextBody("content", content);
-        builder.addTextBody("point", String.valueOf(stars));
-
-
-        HttpEntity httpEntity = builder.build();
-
         Map<String, String> params = new HashMap<>();
         params.put("orderId", orderId);
         String query = QueryUtil.createQuery(API.REVIEW_SHIPPER, params);
 
         StringRequest req = new StringRequest(Request.Method.POST, query,
                 response -> {
-                    Log.d("review shipper", response.toString());
-                    try {
-                        JSONObject json = new JSONObject(response);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    Log.d("rating", response);
+                    context.onBackPressed();
                 },
-                error -> Log.d("review shipper", error.getMessage()))
+                error -> Log.d("rating", error.getMessage()))
         {
 
             @Override
             public byte[] getBody() throws AuthFailureError {
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                JSONObject json = null;
                 try {
-                    httpEntity.writeTo(bos);
-                } catch (IOException e) {
-                    VolleyLog.e("IOException writing to ByteArrayOutputStream");
+                    json = new JSONObject();
+                    json.put("content", content);
+                    json.put("point", stars);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                return bos.toByteArray();
+
+                return json.toString().getBytes(StandardCharsets.UTF_8);
             }
 
             @Override
             public String getBodyContentType() {
-                return httpEntity.getContentType().getValue();
+                return "application/json";
             }
 
             @Override

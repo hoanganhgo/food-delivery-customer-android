@@ -1,5 +1,10 @@
 package com.hcmus.fit.customer_apps.models;
 
+import com.hcmus.fit.customer_apps.utils.AppUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +12,7 @@ public class Restaurant {
     private String id;
     private String avatar;
     private String name;
-    private String fullAddress;
+    private AddressModel address = new AddressModel();
     private boolean isOpening;
     private String hours;
     private String sale;
@@ -21,7 +26,7 @@ public class Restaurant {
         this.id = id;
         this.avatar = avatar;
         this.name = name;
-        this.fullAddress = fullAddress;
+        this.address.setFullAddress(fullAddress);
         this.hours = hours;
         this.isOpening = isOpening;
     }
@@ -39,7 +44,7 @@ public class Restaurant {
     }
 
     public String getFullAddress() {
-        return fullAddress;
+        return address.getFullAddress();
     }
 
     public boolean isOpening() {
@@ -67,7 +72,22 @@ public class Restaurant {
     }
 
     public void setFullAddress(String fullAddress) {
-        this.fullAddress = fullAddress;
+        this.address.setFullAddress(fullAddress);
+    }
+
+    public void setLocation(JSONObject locationJson) throws JSONException {
+        this.address.setLatitude(locationJson.getDouble("latitude"));
+        this.address.setLongitude(locationJson.getDouble("longitude"));
+    }
+
+    public double getDistance() {
+        AddressModel address = UserInfo.getInstance().getAddressCurrent();
+        if (address == null) {
+            return 0;
+        } else {
+            double distance = AppUtil.calculateDistance(address, this.address) / 1000d;
+            return Math.round(distance * 10d) / 10d;
+        }
     }
 
     public void setOpening(boolean opening) {

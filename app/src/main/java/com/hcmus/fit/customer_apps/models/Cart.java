@@ -1,5 +1,10 @@
 package com.hcmus.fit.customer_apps.models;
 
+import android.content.Intent;
+
+import com.hcmus.fit.customer_apps.activities.CartActivity;
+import com.hcmus.fit.customer_apps.activities.OrderStatusActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,11 +15,13 @@ import java.util.List;
 
 public class Cart {
     public String merchant;
-    public int shipFee;
+    public int shipFee = 0;
     public DishModel dishSelect = null;
     public int numSelect = 1;
     private final List<DishOrder> dishList = new ArrayList<>();
     private int payment = 0;   //0: cash, 1: zaloPay
+    private OrderModel orderModelTemp = null;
+    private CartActivity activity;
 
     public Cart() {
 
@@ -163,7 +170,50 @@ public class Cart {
         return foodArray;
     }
 
+    public void setActivity(CartActivity activity) {
+        this.activity = activity;
+    }
+
+    private boolean activityActive() {
+        return this.activity != null && !this.activity.isDestroyed();
+    }
+
+    public void setOrderModelTemp(OrderModel orderModelTemp) {
+        this.orderModelTemp = orderModelTemp;
+    }
+
+    public void paymentSuccess(String orderId) {
+        if (this.orderModelTemp == null) {
+            return;
+        }
+
+        if (!this.orderModelTemp.getId().equals(orderId)) {
+            return;
+        }
+
+        if (this.orderModelTemp.getPaymentMethod() != 1) {
+            this.orderModelTemp = null;
+            return;
+        }
+
+        OrderManager.getInstance().addOrderModel(this.orderModelTemp);
+        UserInfo.getInstance().getCart().clear();
+
+        if (activityActive()) {
+            this.activity.runOnUiThread(() -> {
+                activity.onBackPressed();
+
+                Intent intent = new Intent(activity, OrderStatusActivity.class);
+                intent.putExtra("orderId", orderId);
+                activity.startActivity(intent);
+            });
+        }
+
+    }
+
     public void clear() {
+        this.orderModelTemp = null;
+        this.payment = 0;
         this.dishList.clear();
     }
 }

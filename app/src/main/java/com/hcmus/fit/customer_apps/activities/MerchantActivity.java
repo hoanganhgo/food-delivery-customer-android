@@ -29,6 +29,7 @@ public class MerchantActivity extends AppCompatActivity {
     public TextView tvAddress;
     public TextView tvHours;
     public TextView tvDishNum;
+    public TextView tvDistance;
 
     public ListView lvDish;
     public RelativeLayout rlCart;
@@ -47,6 +48,7 @@ public class MerchantActivity extends AppCompatActivity {
         tvAddress = findViewById(R.id.tv_restaurant_address);
         tvHours = findViewById(R.id.tv_merchant_hours);
         tvDishNum = findViewById(R.id.tv_num_dish);
+        tvDistance = findViewById(R.id.tv_distance);
         lvDish = findViewById(R.id.lv_dish);
         rlCart = findViewById(R.id.rl_total_cart);
         tvOrderNum = findViewById(R.id.tv_order_num);

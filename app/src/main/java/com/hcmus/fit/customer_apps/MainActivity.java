@@ -11,6 +11,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hcmus.fit.customer_apps.networks.MySocket;
 import com.hcmus.fit.customer_apps.networks.SignInNetwork;
+import com.hcmus.fit.customer_apps.utils.NotifyUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         SignInNetwork.getUserInfo(this);
         MySocket.getInstance();
+        NotifyUtil.init(this);
     }
 
 }

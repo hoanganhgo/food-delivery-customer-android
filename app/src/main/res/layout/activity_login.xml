@@ -14,11 +14,11 @@
 
     <ImageView
         android:id="@+id/slide"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="center"
         android:layout_marginTop="-40dp"
-        app:srcCompat="@drawable/img_slice_2" />
+        app:srcCompat="@drawable/ic_logo_1" />
 
     <LinearLayout
         android:layout_width="wrap_content"

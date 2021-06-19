@@ -2,6 +2,7 @@
 <resources>
     <color name="red_200">#88FF0000</color>
     <color name="red_500">#FFFF0000</color>
+    <color name="red_light">#22FF0000</color>
     <color name="red_700">#FFBC0000</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="yellow">#FFEB3B</color>

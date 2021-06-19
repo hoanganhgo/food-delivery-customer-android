@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:background="@color/grey_bg">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_user_avatar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/avatar"
+        android:layout_alignParentStart="true"/>
+    <TextView
+        android:id="@+id/tv_user_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Let's go..."
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_regular"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@id/iv_user_avatar"
+        android:background="@drawable/bg_btn_white"
+        android:padding="5dp"
+        android:layout_marginStart="5dp"/>
+
+    <TextView
+        android:id="@+id/tv_my_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Let's go away..."
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_regular"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_btn_white"
+        android:padding="5dp"
+        android:layout_alignParentEnd="true"/>
+</RelativeLayout>

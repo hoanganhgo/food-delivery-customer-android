@@ -9,7 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hcmus.fit.customer_apps.R;
+import com.hcmus.fit.customer_apps.models.NotifyManager;
+import com.hcmus.fit.customer_apps.models.NotifyModel;
 import com.hcmus.fit.customer_apps.models.UserInfo;
+import com.squareup.picasso.Picasso;
 
 public class NotificationAdapter extends BaseAdapter {
     private final LayoutInflater layoutInflater;
@@ -20,12 +23,12 @@ public class NotificationAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return UserInfo.getInstance().getNotifyList().size();
+        return NotifyManager.getInstance().getNotifyListSize();
     }
 
     @Override
     public Object getItem(int position) {
-        return UserInfo.getInstance().getNotifyList().get(position);
+        return NotifyManager.getInstance().getNotify(position);
     }
 
     @Override
@@ -45,6 +48,13 @@ public class NotificationAdapter extends BaseAdapter {
             convertView.setTag(holder);
         } else {
             holder = (MyViewHolder) convertView.getTag();
+        }
+
+        NotifyModel notifyModel = NotifyManager.getInstance().getNotify(position);
+        holder.tvTitle.setText(notifyModel.getTitle());
+        holder.tvContent.setText(notifyModel.getContent());
+        if (!notifyModel.getAvatarUrl().isEmpty()) {
+            Picasso.with(convertView.getContext()).load(notifyModel.getAvatarUrl()).into(holder.ivAvatar);
         }
 
         return convertView;

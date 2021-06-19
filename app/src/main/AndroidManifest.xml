@@ -41,6 +41,7 @@
         <activity android:name=".activities.OrderStatusActivity"/>
         <activity android:name=".activities.MerchantListActivity"/>
         <activity android:name=".activities.MapsActivity"/>
+        <activity android:name=".activities.ChatActivity"/>
     </application>
 
 </manifest>

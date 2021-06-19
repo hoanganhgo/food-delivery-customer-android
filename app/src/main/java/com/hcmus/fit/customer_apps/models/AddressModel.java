@@ -6,6 +6,9 @@ public class AddressModel {
     private double longitude;
     private double latitude;
 
+    public AddressModel() {
+    }
+
     public AddressModel(String fullAddress, String name) {
         this.fullAddress = fullAddress;
         this.name = name;
@@ -13,6 +16,10 @@ public class AddressModel {
 
     public String getFullAddress() {
         return fullAddress;
+    }
+
+    public void setFullAddress(String fullAddress) {
+        this.fullAddress = fullAddress;
     }
 
     public String getName() {

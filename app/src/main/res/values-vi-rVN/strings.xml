@@ -64,4 +64,6 @@
     <string name="payment">Thanh toán</string>
     <string name="cash">Tiền mặt</string>
     <string name="zalo_pay">ZaloPay</string>
+    <string name="enter_message">Nhập tin nhắn...</string>
+    <string name="notify_no_fee_ship">Phí vận chuyển chưa được tải</string>
 </resources>

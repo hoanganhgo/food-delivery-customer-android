@@ -12,6 +12,7 @@ import com.hcmus.fit.customer_apps.R;
 import com.hcmus.fit.customer_apps.models.OrderManager;
 import com.hcmus.fit.customer_apps.models.OrderModel;
 import com.hcmus.fit.customer_apps.utils.AppUtil;
+import com.squareup.picasso.Picasso;
 
 public class OrderAdapter extends BaseAdapter {
     private final LayoutInflater layoutInflater;
@@ -54,6 +55,8 @@ public class OrderAdapter extends BaseAdapter {
 
         OrderModel order = OrderManager.getInstance().getOrderModel(position);
         holder.tvOrderId.setText("#" + order.getId());
+        holder.tvOrderTime.setText( AppUtil.getTimeString(order.getCalendar()));
+        Picasso.with(convertView.getContext()).load(order.getAvatarRestaurant()).into(holder.ivAvatarRestaurant);
         holder.tvMerchantName.setText(order.getRestaurantName());
         holder.tvMerchantAddress.setText(order.getRestaurantAddress());
         holder.tvOrderPrice.setText(AppUtil.convertCurrency(order.getTotal()));

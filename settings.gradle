@@ -1,2 +1,3 @@
+include ':zpdk-release'
 include ':app'
 rootProject.name = "Customer-Apps"

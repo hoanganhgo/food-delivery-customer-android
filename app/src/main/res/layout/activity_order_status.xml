@@ -20,31 +20,31 @@
         <LinearLayout
             android:id="@+id/ln_way_01"
             android:layout_width="0dp"
-            android:layout_height="3dp"
+            android:layout_height="5dp"
             android:layout_weight="0.25"
             android:orientation="horizontal"
-            android:background="@color/grey"/>
+            android:background="@color/grey_bg"/>
         <LinearLayout
             android:id="@+id/ln_way_02"
             android:layout_width="0dp"
-            android:layout_height="3dp"
+            android:layout_height="5dp"
             android:layout_weight="0.25"
             android:orientation="horizontal"
-            android:background="@color/grey"/>
+            android:background="@color/grey_bg"/>
         <LinearLayout
             android:id="@+id/ln_way_03"
             android:layout_width="0dp"
-            android:layout_height="3dp"
+            android:layout_height="5dp"
             android:layout_weight="0.25"
             android:orientation="horizontal"
-            android:background="@color/grey"/>
+            android:background="@color/grey_bg"/>
         <LinearLayout
             android:id="@+id/ln_way_04"
             android:layout_width="0dp"
-            android:layout_height="3dp"
+            android:layout_height="5dp"
             android:layout_weight="0.25"
             android:orientation="horizontal"
-            android:background="@color/grey"/>
+            android:background="@color/grey_bg"/>
     </LinearLayout>
 
     <LinearLayout
@@ -61,7 +61,7 @@
                 android:id="@+id/tv_lb_process_order"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.22"
                 android:text="@string/process_order"
                 android:textSize="12sp"
                 android:fontFamily="@font/roboto_regular"
@@ -76,7 +76,7 @@
                 android:id="@+id/tv_lb_waiting_dish"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.22"
                 android:text="@string/waiting_dish"
                 android:textSize="12sp"
                 android:fontFamily="@font/roboto_regular"
@@ -91,7 +91,7 @@
                 android:id="@+id/tv_lb_shipping"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.22"
                 android:text="@string/shipping"
                 android:textSize="12sp"
                 android:fontFamily="@font/roboto_regular"
@@ -106,7 +106,7 @@
                 android:id="@+id/tv_lb_arrived"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.22"
                 android:text="@string/arrived"
                 android:textSize="12sp"
                 android:fontFamily="@font/roboto_regular"
@@ -121,7 +121,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginHorizontal="5dp"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
@@ -165,7 +165,8 @@
                     android:layout_height="45dp"
                     android:src="@drawable/ic_map"
                     android:scaleType="fitXY"
-                    android:background="@drawable/bg_transparent"
+                    android:background="@drawable/bg_no_active_primary"
+                    android:padding="10dp"
                     android:layout_marginEnd="20dp"/>
                 <ImageButton
                     android:id="@+id/btn_messenger"
@@ -173,7 +174,8 @@
                     android:layout_height="45dp"
                     android:src="@drawable/ic_messenger"
                     android:scaleType="fitXY"
-                    android:background="@drawable/bg_transparent"
+                    android:background="@drawable/bg_no_active_primary"
+                    android:padding="10dp"
                     android:layout_marginEnd="20dp"/>
                 <ImageButton
                     android:id="@+id/btn_call_shipper"
@@ -181,7 +183,8 @@
                     android:layout_height="45dp"
                     android:src="@drawable/ic_telephone"
                     android:scaleType="fitXY"
-                    android:background="@drawable/bg_transparent" />
+                    android:padding="10dp"
+                    android:background="@drawable/bg_no_active_primary" />
             </LinearLayout>
 
         </RelativeLayout>

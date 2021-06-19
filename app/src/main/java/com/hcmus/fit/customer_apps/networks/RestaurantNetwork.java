@@ -105,6 +105,7 @@ public class RestaurantNetwork {
                         model.setName(restaurantJson.getString("Name"));
                         model.setAvatar(restaurantJson.getString("Avatar"));
                         model.setFullAddress(restaurantJson.getString("FullAddress"));
+                        model.setLocation(restaurantJson.getJSONObject("Geolocation"));
                         String hours = AppUtil.parseMerchantHours( restaurantJson.getJSONArray("OpenHours"));
                         model.setHours(hours);
 
@@ -112,6 +113,7 @@ public class RestaurantNetwork {
                         Picasso.with(context).load(model.getAvatar()).into(context.ivAvatar);
                         context.tvAddress.setText(model.getFullAddress());
                         context.tvHours.setText(model.getHours());
+                        context.tvDistance.setText(String.valueOf(model.getDistance()) + " km");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

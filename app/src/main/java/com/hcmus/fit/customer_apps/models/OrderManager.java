@@ -65,6 +65,22 @@ public class OrderManager {
         return null;
     }
 
+    public ShipperModel getShipper(String shipperId) {
+        for (OrderModel order : this.orderList) {
+            ShipperModel shipper = order.getShipper();
+
+            if (shipper == null) {
+                continue;
+            }
+
+            if (shipper.getId().equals(shipperId)) {
+                return shipper;
+            }
+        }
+
+        return null;
+    }
+
     public void removeOrderModel(String orderId) {
         Iterator<OrderModel> it = this.orderList.iterator();
 
