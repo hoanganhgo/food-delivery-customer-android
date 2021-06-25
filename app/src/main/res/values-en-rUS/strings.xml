@@ -66,4 +66,6 @@
     <string name="zalo_pay">ZaloPay</string>
     <string name="enter_message">Enter your message...</string>
     <string name="notify_no_fee_ship">Fee ship has not loaded</string>
+    <string name="app_name">Flash Food</string>
+    <string name="review">Review</string>
 </resources>

@@ -3,18 +3,19 @@ package com.hcmus.fit.customer_apps.networks;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hcmus.fit.customer_apps.activities.MerchantActivity;
-import com.hcmus.fit.customer_apps.activities.SearchActivity;
+import com.hcmus.fit.customer_apps.activities.ReviewActivity;
 import com.hcmus.fit.customer_apps.adapters.RestaurantAdapter;
 import com.hcmus.fit.customer_apps.adapters.RestaurantVAdapter;
 import com.hcmus.fit.customer_apps.contants.API;
 import com.hcmus.fit.customer_apps.models.Restaurant;
+import com.hcmus.fit.customer_apps.models.ReviewModel;
+import com.hcmus.fit.customer_apps.models.UserInfo;
 import com.hcmus.fit.customer_apps.utils.AppUtil;
 import com.hcmus.fit.customer_apps.utils.QueryUtil;
 import com.squareup.picasso.Picasso;
@@ -23,7 +24,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RestaurantNetwork {
@@ -150,6 +153,64 @@ public class RestaurantNetwork {
                     }
                 },
                 error -> Log.d("restaurant", error.getMessage()));
+
+        queue.add(req);
+    }
+
+    public static void getRestaurantReview(ReviewActivity context, String orderId) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("restaurantID", orderId);
+        String query = QueryUtil.createQuery(API.GET_RESTAURANT_REVIEW, params);
+
+        StringRequest req = new StringRequest(Request.Method.GET, query,
+                response -> {
+                    Log.d("restaurant review", response.toString());
+                    try {
+                        JSONObject json = new JSONObject(response);
+                        JSONArray reviewArrJson = json.getJSONArray("data");
+
+                        for (int i = 0; i < reviewArrJson.length(); i++) {
+                            JSONObject reviewJson = reviewArrJson.getJSONObject(i);
+                            JSONObject userJson = reviewJson.getJSONObject("User");
+                            String fullName = userJson.getString("FullName");
+                            String avatarUrl = userJson.getString("Avatar");
+                            int stars = reviewJson.getInt("Point");
+                            String content = reviewJson.getString("Content");
+                            String createAt = reviewJson.getString("CreatedAt");
+                            Calendar calendar = AppUtil.parseCalendar(createAt);
+
+                            ReviewModel reviewModel = new ReviewModel();
+                            reviewModel.setUserName(fullName);
+                            reviewModel.setAvatarUrl(avatarUrl);
+                            reviewModel.setStars(stars);
+                            reviewModel.setContent(content);
+                            reviewModel.setCreateAt(calendar);
+
+                            context.reviewList.add(reviewModel);
+                        }
+
+                        context.reviewAdapter.notifyDataSetChanged();
+                        context.calculateStar();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> Log.d("restaurant review", error.getMessage())) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + UserInfo.getInstance().getToken());
+                return headers;
+            }
+        };
 
         queue.add(req);
     }

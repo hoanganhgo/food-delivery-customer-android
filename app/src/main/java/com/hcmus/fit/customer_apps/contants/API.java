@@ -5,11 +5,10 @@ public class API {
      * 0: local,  1: release
      */
     private static final int env = 0;
-    //private static final String localHost = "http://10.0.2.2:8000";
-    private static final String localHost = "http://192.168.1.7:8000";
-    private static final String releaseHost = "https://flashfood.online";
-    private static final String localSocket = "http://192.168.1.7:8010";
-    private static final String releaseSocket = "";
+    private static final String localHost = "http://10.0.2.2:8000";
+    private static final String releaseHost = "https://api.customer.flash.bin.edu.vn";
+    private static final String localSocket = "http://10.0.2.2:8010";
+    private static final String releaseSocket = "https://api.socket.flash.bin.edu.vn";
     private static final String SERVER = env == 0 ? localHost : releaseHost;
     public static final String SERVER_SOCKET = env == 0 ? localSocket : releaseSocket;
 
@@ -26,5 +25,7 @@ public class API {
     public static final String ORDER = SERVER + "/orders";
     public static final String GET_SHIP_FEE = SERVER + "/orders/shippingfee?restaurant={merchantId}&destination={addressDelivery}";
     public static final String REVIEW_SHIPPER = SERVER + "/orders/{orderId}/shipperreviews/raw";
+    public static final String REVIEW_MERCHANT = SERVER + "/orders/{orderId}/restaurantreviews/raw";
+    public static final String GET_RESTAURANT_REVIEW = SERVER + "/restaurants/{restaurantID}/reviews";
     public static final String redirectUrl = SERVER_SOCKET + "/callback-zalopay";
 }

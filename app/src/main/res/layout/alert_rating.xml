@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/tv_rate_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/rate_shipper"

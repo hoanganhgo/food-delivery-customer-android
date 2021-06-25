@@ -20,7 +20,9 @@
             android:id="@+id/tv_restaurant_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="5dp"
+            android:paddingHorizontal="10dp"
             android:text="Com tam ba ba"
             android:fontFamily="@font/roboto_medium"
             android:textSize="20sp"
@@ -45,9 +47,9 @@
                 android:layout_height="wrap_content"
                 android:text="123, Ly Thuong Kiet, Quan 10, TP. HCM"
                 android:fontFamily="@font/roboto_regular"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textColor="@color/grey"
-                android:maxLines="2"/>
+                android:maxLines="1"/>
         </LinearLayout>
 
         <View
@@ -59,39 +61,45 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
-            <LinearLayout
+            android:paddingVertical="3dp"
+            android:paddingHorizontal="10dp">
+            <RelativeLayout
                 android:id="@+id/ln_item_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn_review"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/bg_btn_transparent_2"/>
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star"
-                    android:scaleType="fitXY"/>
+                    android:id="@+id/iv_ic_review"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_review"
+                    android:scaleType="fitXY"
+                    android:layout_alignParentStart="true"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="4.6"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="(999+)"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/grey"/>
-            </LinearLayout>
+                    android:text="@string/review"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="13sp"
+                    android:textColor="@color/black"
+                    android:layout_toEndOf="@+id/iv_ic_review"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/ln_item_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="wrap_content"
@@ -104,8 +112,8 @@
                     android:layout_height="wrap_content"
                     android:text="15-25mins"
                     android:fontFamily="@font/roboto_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"/>
+                    android:textSize="15sp"
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <LinearLayout
@@ -113,6 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="wrap_content"

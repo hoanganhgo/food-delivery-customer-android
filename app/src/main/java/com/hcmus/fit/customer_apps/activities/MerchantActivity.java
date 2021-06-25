@@ -26,6 +26,7 @@ public class MerchantActivity extends AppCompatActivity {
 
     public TextView tvName;
     public ImageView ivAvatar;
+    public Button btnReview;
     public TextView tvAddress;
     public TextView tvHours;
     public TextView tvDishNum;
@@ -45,6 +46,7 @@ public class MerchantActivity extends AppCompatActivity {
         setContentView(R.layout.activity_merchant_detail);
         tvName = findViewById(R.id.tv_restaurant_name);
         ivAvatar = findViewById(R.id.iv_avatar_restaurant);
+        btnReview = findViewById(R.id.btn_review);
         tvAddress = findViewById(R.id.tv_restaurant_address);
         tvHours = findViewById(R.id.tv_merchant_hours);
         tvDishNum = findViewById(R.id.tv_num_dish);
@@ -66,6 +68,12 @@ public class MerchantActivity extends AppCompatActivity {
         btnCart.setOnClickListener(v -> {
             Intent intentCart = new Intent(this, CartActivity.class);
             startActivity(intentCart);
+        });
+
+        btnReview.setOnClickListener(v -> {
+            Intent intentReview = new Intent(this, ReviewActivity.class);
+            intentReview.putExtra("orderId", model.getId());
+            startActivity(intentReview);
         });
 
         UserInfo.getInstance().getCart().merchant = model.getId();

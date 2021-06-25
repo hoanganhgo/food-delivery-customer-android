@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -121,7 +122,7 @@ public class OrderManager {
 
             try {
                 Thread.sleep(1000);
-                activity.runOnUiThread(() -> showRating(orderId));
+                activity.runOnUiThread(() -> showRatingShipper(orderId));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -130,7 +131,7 @@ public class OrderManager {
         }
     }
 
-    public void showRating(String orderId) {
+    public void showRatingShipper(String orderId) {
         AlertDialog alertDialog = new AlertDialog.Builder(this.activity).create();
         LayoutInflater inflater = LayoutInflater.from(this.activity);
         View rateView = inflater.inflate(R.layout.alert_rating, null);
@@ -156,6 +157,48 @@ public class OrderManager {
         btnRating.setOnClickListener(v -> {
             DishNetwork.ratingShipper(this.activity, orderId, edtRating.getText().toString(), (int) ratingBar.getRating());
             alertDialog.dismiss();
+            activity.runOnUiThread(() -> showRatingMerchant(orderId));
+        });
+
+        btnCancel.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            activity.runOnUiThread(() -> showRatingMerchant(orderId));
+        });
+
+        alertDialog.setView(rateView);
+        alertDialog.show();
+    }
+
+    public void showRatingMerchant(String orderId) {
+        AlertDialog alertDialog = new AlertDialog.Builder(this.activity).create();
+        LayoutInflater inflater = LayoutInflater.from(this.activity);
+        View rateView = inflater.inflate(R.layout.alert_rating, null);
+        TextView tvTitle = rateView.findViewById(R.id.tv_rate_title);
+        RatingBar ratingBar = rateView.findViewById(R.id.rating);
+        EditText edtRating = rateView.findViewById(R.id.edt_rating);
+        Button btnRating = rateView.findViewById(R.id.btn_rating);
+        Button btnCancel = rateView.findViewById(R.id.btn_cancel);
+
+        tvTitle.setText(activity.getResources().getString(R.string.rate_merchant));
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                ratingBar.setRating(rating);
+            }
+        });
+
+        ratingBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("star", "click start");
+            }
+        });
+
+        btnRating.setOnClickListener(v -> {
+            DishNetwork.ratingMerchant(this.activity, orderId, edtRating.getText().toString(), (int) ratingBar.getRating());
+            alertDialog.dismiss();
+            this.activity.onBackPressed();
         });
 
         btnCancel.setOnClickListener(v -> {
@@ -165,6 +208,7 @@ public class OrderManager {
         alertDialog.setView(rateView);
         alertDialog.show();
     }
+
 
     public void updateShipperInfo(String orderId, ShipperModel shipper) {
         for (OrderModel orderModel : this.orderList) {

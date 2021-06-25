@@ -217,10 +217,9 @@ public class DishNetwork {
 
         StringRequest req = new StringRequest(Request.Method.POST, query,
                 response -> {
-                    Log.d("rating", response);
-                    context.onBackPressed();
+                    Log.d("rating-shipper", response);
                 },
-                error -> Log.d("rating", error.getMessage()))
+                error -> Log.d("rating-shipper", error.getMessage()))
         {
 
             @Override
@@ -252,4 +251,49 @@ public class DishNetwork {
 
         queue.add(req);
     }
+
+    public static void ratingMerchant(OrderStatusActivity context, String orderId, String content, int stars) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("orderId", orderId);
+        String query = QueryUtil.createQuery(API.REVIEW_MERCHANT, params);
+
+        StringRequest req = new StringRequest(Request.Method.POST, query,
+                response -> {
+                    Log.d("rating-merchant", response);
+                },
+                error -> Log.d("rating-merchant", error.getMessage()))
+        {
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                JSONObject json = null;
+                try {
+                    json = new JSONObject();
+                    json.put("content", content);
+                    json.put("point", stars);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                return json.toString().getBytes(StandardCharsets.UTF_8);
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + UserInfo.getInstance().getToken());
+                return headers;
+            }
+        };
+
+        queue.add(req);
+    }
+
 }
