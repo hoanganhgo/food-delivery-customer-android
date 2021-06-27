@@ -2,6 +2,7 @@ package com.hcmus.fit.customer_apps.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -31,6 +32,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.Utils;
 import vn.zalopay.sdk.ZaloPaySDK;
 
 public class CartActivity extends AppCompatActivity {
@@ -152,6 +155,8 @@ public class CartActivity extends AppCompatActivity {
             UserInfo.getInstance().getCart().removeDishOrderEmpty();
             DishNetwork.order(this, UserInfo.getInstance().getCart());
         });
+
+        ZaloPaySDK.init(2554, Environment.SANDBOX);
     }
 
     @Override
@@ -160,10 +165,16 @@ public class CartActivity extends AppCompatActivity {
         UserInfo.getInstance().getCart().removeDishOrderEmpty();
     }
 
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        ZaloPaySDK.getInstance().onResult(data);
+//    }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        ZaloPaySDK.getInstance().onResult(data);
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ZaloPaySDK.getInstance().onResult(intent);
     }
 
     public void updateCart() {

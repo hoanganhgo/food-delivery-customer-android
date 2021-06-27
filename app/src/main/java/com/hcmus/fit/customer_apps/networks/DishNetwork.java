@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.Utils;
 import vn.zalopay.sdk.ZaloPaySDK;
 
 public class DishNetwork {
@@ -127,9 +128,8 @@ public class DishNetwork {
                                 JSONObject paymentJson = data.getJSONObject("paymentInfo");
                                 String zpTranstoken = paymentJson.getString("zp_trans_token");
 
-                                ZaloPaySDK.init(2554, Environment.SANDBOX);
-
                                 // Gọi hàm thanh toán
+                                //Utils.showZaloPayOnPlayStore(context);
                                 ZaloPaySDK.getInstance().payOrder(context, zpTranstoken, null, new MyZaloPayListener());
                             }
                         }
