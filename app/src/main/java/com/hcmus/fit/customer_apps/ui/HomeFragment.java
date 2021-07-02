@@ -4,24 +4,18 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
 import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -31,13 +25,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.hcmus.fit.customer_apps.R;
 import com.hcmus.fit.customer_apps.activities.MerchantListActivity;
 import com.hcmus.fit.customer_apps.activities.SearchActivity;
@@ -51,13 +38,8 @@ import com.hcmus.fit.customer_apps.models.UserInfo;
 import com.hcmus.fit.customer_apps.networks.RestaurantNetwork;
 import com.hcmus.fit.customer_apps.utils.AppUtil;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
-
-import static android.content.Context.LOCATION_SERVICE;
 
 public class HomeFragment extends Fragment implements LocationListener {
 
@@ -203,16 +185,16 @@ public class HomeFragment extends Fragment implements LocationListener {
     }
 
     private void genDataBanners() {
-        Banner banner1 = new Banner("drawable-v24/banner.png", "");
+        Banner banner1 = new Banner("drawable/banner.png", "");
         bannerList.add(banner1);
 
-        Banner banner2 = new Banner("drawable-v24/banner.png", "");
+        Banner banner2 = new Banner("drawable/banner.png", "");
         bannerList.add(banner2);
 
-        Banner banner3 = new Banner("drawable-v24/banner.png", "");
+        Banner banner3 = new Banner("drawable/banner.png", "");
         bannerList.add(banner3);
 
-        Banner banner4 = new Banner("drawable-v24/banner.png", "");
+        Banner banner4 = new Banner("drawable/banner.png", "");
         bannerList.add(banner4);
 
         bnAdapter.notifyDataSetChanged();

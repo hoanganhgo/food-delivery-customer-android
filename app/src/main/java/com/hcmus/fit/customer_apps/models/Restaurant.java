@@ -16,6 +16,9 @@ public class Restaurant {
     private boolean isOpening;
     private String hours;
     private String sale;
+    private double starsNum;
+    private int numReview;
+    private boolean partner;
     private List<DishModel> dishList = new ArrayList<>();
 
     public Restaurant() {
@@ -69,6 +72,30 @@ public class Restaurant {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isPartner() {
+        return partner;
+    }
+
+    public void setPartner(boolean partner) {
+        this.partner = partner;
+    }
+
+    public double getStarsNum() {
+        return starsNum;
+    }
+
+    public void setStarsNum(double starsNum) {
+        this.starsNum = starsNum;
+    }
+
+    public int getNumReview() {
+        return numReview;
+    }
+
+    public void setNumReview(int numReview) {
+        this.numReview = numReview;
     }
 
     public void setFullAddress(String fullAddress) {

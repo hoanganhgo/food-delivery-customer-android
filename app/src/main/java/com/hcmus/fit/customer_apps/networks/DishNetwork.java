@@ -79,7 +79,13 @@ public class DishNetwork {
                         e.printStackTrace();
                     }
                 },
-                error -> Log.d("menu", error.getMessage()));
+                error -> {
+                    try {
+                        Log.d("menu", error.getMessage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
 
         queue.add(req);
     }
@@ -130,14 +136,20 @@ public class DishNetwork {
 
                                 // Gọi hàm thanh toán
                                 //Utils.showZaloPayOnPlayStore(context);
-                                ZaloPaySDK.getInstance().payOrder(context, zpTranstoken, null, new MyZaloPayListener());
+                                ZaloPaySDK.getInstance().payOrder(context, zpTranstoken, "", new MyZaloPayListener());
                             }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 },
-                error -> Log.d("order", error.getMessage()))
+                error -> {
+                    try {
+                        Log.d("order", error.getMessage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                })
         {
 
             @Override
@@ -203,7 +215,13 @@ public class DishNetwork {
                         e.printStackTrace();
                     }
                 },
-                error -> Log.d("feeShip", error.getMessage()));
+                error -> {
+                    try {
+                        Log.d("feeShip", error.getMessage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
 
         queue.add(req);
     }

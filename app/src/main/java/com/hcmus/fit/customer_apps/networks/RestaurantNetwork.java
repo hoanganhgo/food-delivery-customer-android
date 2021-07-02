@@ -1,7 +1,9 @@
 package com.hcmus.fit.customer_apps.networks;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
+import android.view.View;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -26,7 +28,6 @@ import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class RestaurantNetwork {
@@ -55,7 +56,13 @@ public class RestaurantNetwork {
                         e.printStackTrace();
                     }
                 },
-                error -> Log.d("restaurant", error.getMessage()));
+                error -> {
+                    try {
+                        Log.d("restaurant", error.getMessage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
 
         queue.add(req);
     }
@@ -87,7 +94,13 @@ public class RestaurantNetwork {
                         e.printStackTrace();
                     }
                 },
-                error -> Log.d("restaurant", error.getMessage()));
+                error -> {
+                    try {
+                        Log.d("restaurant", error.getMessage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
 
         queue.add(req);
     }
@@ -109,6 +122,9 @@ public class RestaurantNetwork {
                         model.setAvatar(restaurantJson.getString("Avatar"));
                         model.setFullAddress(restaurantJson.getString("FullAddress"));
                         model.setLocation(restaurantJson.getJSONObject("Geolocation"));
+                        model.setStarsNum(restaurantJson.getDouble("Rating"));
+                        model.setNumReview(restaurantJson.getInt("TotalReviews"));
+                        model.setPartner(restaurantJson.getBoolean("IsPartner"));
                         String hours = AppUtil.parseMerchantHours( restaurantJson.getJSONArray("OpenHours"));
                         model.setHours(hours);
 
@@ -116,12 +132,22 @@ public class RestaurantNetwork {
                         Picasso.with(context).load(model.getAvatar()).into(context.ivAvatar);
                         context.tvAddress.setText(model.getFullAddress());
                         context.tvHours.setText(model.getHours());
-                        context.tvDistance.setText(String.valueOf(model.getDistance()) + " km");
+                        context.tvDistance.setText(model.getDistance() + " km");
+                        context.tvStarNum.setText(String.valueOf(model.getStarsNum()));
+                        context.tvReviewNum.setText("(" + model.getNumReview() + ")");
+                        context.ivOpening.setColorFilter(model.isOpening() ? Color.GREEN : Color.RED);
+                        context.ivPartner.setVisibility(model.isPartner() ? View.VISIBLE : View.INVISIBLE);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 },
-                error -> Log.d("restaurant detail", error.getMessage()));
+                error -> {
+                    try {
+                        Log.d("restaurant detail", error.getMessage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
 
         queue.add(req);
     }
@@ -152,7 +178,13 @@ public class RestaurantNetwork {
                         e.printStackTrace();
                     }
                 },
-                error -> Log.d("restaurant", error.getMessage()));
+                error -> {
+                    try {
+                        Log.d("restaurant", error.getMessage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
 
         queue.add(req);
     }
@@ -198,7 +230,13 @@ public class RestaurantNetwork {
                         e.printStackTrace();
                     }
                 },
-                error -> Log.d("restaurant review", error.getMessage())) {
+                error -> {
+                    try {
+                        Log.d("restaurant review", error.getMessage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }) {
             @Override
             public String getBodyContentType() {
                 return "application/json";

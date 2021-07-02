@@ -1,5 +1,9 @@
 package com.hcmus.fit.customer_apps.ui;
 
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +31,7 @@ public class SettingFragment extends Fragment {
     private Button btnUserId;
     private Button btnEmail;
     private Button btnPhone;
+    private Button btnComplain;
     private Button btnSignOut;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -39,6 +44,7 @@ public class SettingFragment extends Fragment {
         btnUserId = root.findViewById(R.id.btn_user_id);
         btnEmail = root.findViewById(R.id.btn_email);
         btnPhone = root.findViewById(R.id.btn_phone);
+        btnComplain = root.findViewById(R.id.btn_complain);
         btnSignOut = root.findViewById(R.id.btn_sign_out);
 
         Picasso.with(getContext()).load(UserInfo.getInstance().getAvatar()).into(ivAvatar);
@@ -46,6 +52,22 @@ public class SettingFragment extends Fragment {
         btnUserId.setText(UserInfo.getInstance().getId());
         btnEmail.setText(UserInfo.getInstance().getEmail());
         btnPhone.setText(UserInfo.getInstance().getPhoneNumber());
+
+        btnComplain.setOnClickListener(v -> {
+            String url = "https://forms.gle/p1U6RdjQJR5dMxJ39";
+            try {
+                Intent i = new Intent("android.intent.action.MAIN");
+                i.setComponent(ComponentName.unflattenFromString("com.android.chrome/com.android.chrome.Main"));
+                i.addCategory("android.intent.category.LAUNCHER");
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+            catch(ActivityNotFoundException e) {
+                // Chrome is not installed
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(i);
+            }
+        });
 
         btnSignOut.setOnClickListener(v -> {
             googleSignInClient.signOut()

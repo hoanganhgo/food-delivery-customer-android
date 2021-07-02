@@ -21,12 +21,18 @@ import com.hcmus.fit.customer_apps.networks.DishNetwork;
 import com.hcmus.fit.customer_apps.networks.RestaurantNetwork;
 import com.hcmus.fit.customer_apps.utils.AppUtil;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MerchantActivity extends AppCompatActivity {
     private final Restaurant model = new Restaurant();
 
     public TextView tvName;
     public ImageView ivAvatar;
     public Button btnReview;
+    public CircleImageView ivOpening;
+    public ImageView ivPartner;
+    public TextView tvStarNum;
+    public TextView tvReviewNum;
     public TextView tvAddress;
     public TextView tvHours;
     public TextView tvDishNum;
@@ -46,7 +52,11 @@ public class MerchantActivity extends AppCompatActivity {
         setContentView(R.layout.activity_merchant_detail);
         tvName = findViewById(R.id.tv_restaurant_name);
         ivAvatar = findViewById(R.id.iv_avatar_restaurant);
+        ivOpening = findViewById(R.id.iv_opening);
+        ivPartner = findViewById(R.id.iv_partner);
         btnReview = findViewById(R.id.btn_review);
+        tvStarNum = findViewById(R.id.tv_star_num);
+        tvReviewNum = findViewById(R.id.tv_review_num);
         tvAddress = findViewById(R.id.tv_restaurant_address);
         tvHours = findViewById(R.id.tv_merchant_hours);
         tvDishNum = findViewById(R.id.tv_num_dish);
@@ -59,6 +69,7 @@ public class MerchantActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         model.setId(intent.getStringExtra("id"));
+        model.setOpening(intent.getBooleanExtra("opening", false));
         RestaurantNetwork.getRestaurantDetail(this, model);
 
         dishAdapter = new DishAdapter(this, model.getDishList());

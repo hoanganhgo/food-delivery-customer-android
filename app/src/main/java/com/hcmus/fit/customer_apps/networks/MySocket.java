@@ -69,7 +69,7 @@ public class MySocket {
             String orderId = data.getString("orderID");
             OrderManager.getInstance().setStatusOrder(orderId, status);
 
-            if (status == 1) {
+            if (status == 1 || status == 2) {
                 UserInfo.getInstance().getCart().paymentSuccess(orderId);
             } else if (status == 3) {
                 OrderManager.getInstance().setStatusWaitingDish(orderId);

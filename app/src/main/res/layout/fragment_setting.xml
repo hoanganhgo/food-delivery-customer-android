@@ -74,6 +74,18 @@
             android:textAlignment="textStart"
             android:drawableStart="@drawable/ic_phone"
             android:drawablePadding="5dp"/>
+        <Button
+            android:id="@+id/btn_complain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/send_complain"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:fontFamily="@font/roboto_regular"
+            android:background="@color/white"
+            android:textAlignment="textStart"
+            android:drawableStart="@drawable/ic_complain"
+            android:drawablePadding="5dp"/>
     </LinearLayout>
 
 

@@ -68,4 +68,6 @@
     <string name="notify_no_fee_ship">Phí vận chuyển chưa được tải</string>
     <string name="app_name">Flash Food</string>
     <string name="review">Đánh giá</string>
+    <string name="merchant_partner">Quán đối tác</string>
+    <string name="send_complain">Gửi khiếu nại</string>
 </resources>

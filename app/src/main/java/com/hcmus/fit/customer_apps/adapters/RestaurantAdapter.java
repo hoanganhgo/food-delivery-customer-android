@@ -1,8 +1,8 @@
 package com.hcmus.fit.customer_apps.adapters;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,6 +18,8 @@ import com.hcmus.fit.customer_apps.models.Restaurant;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.MyViewHolder> {
 
@@ -38,11 +40,13 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.My
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Restaurant restaurant = restaurantList.get(position);
+        holder.ivOpening.setColorFilter(restaurant.isOpening() ? Color.GREEN : Color.RED);
         holder.tvName.setText(restaurant.getName());
         Picasso.with(holder.itemView.getContext()).load(restaurant.getAvatar()).into(holder.ivAvatar);
         holder.btnRestaurant.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), MerchantActivity.class);
             intent.putExtra("id", restaurant.getId());
+            intent.putExtra("opening", restaurant.isOpening());
             v.getContext().startActivity(intent);
         });
     }
@@ -53,17 +57,17 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.My
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
+        CircleImageView ivOpening;
         Button btnRestaurant;
         ImageView ivAvatar;
         TextView tvName;
-        TextView tvSale;
 
         MyViewHolder(View view) {
             super(view);
+            ivOpening = view.findViewById(R.id.iv_opening);
             btnRestaurant = view.findViewById(R.id.btn_restaurant);
             ivAvatar = view.findViewById(R.id.iv_avatar_restaurant);
             tvName = view.findViewById(R.id.tv_restaurant_name);
-            tvSale = view.findViewById(R.id.tv_big_sale);
         }
     }
 }

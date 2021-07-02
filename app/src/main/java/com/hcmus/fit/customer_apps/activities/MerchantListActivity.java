@@ -39,6 +39,7 @@ public class MerchantListActivity extends AppCompatActivity {
         lvMerchant.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent(this, MerchantActivity.class);
             intent.putExtra("id", restaurants.get(position).getId());
+            intent.putExtra("opening", restaurants.get(position).isOpening());
             startActivity(intent);
         });
 

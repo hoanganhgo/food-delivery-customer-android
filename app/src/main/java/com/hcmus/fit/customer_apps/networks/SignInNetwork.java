@@ -270,7 +270,13 @@ public class SignInNetwork {
                     }
 
                 },
-                error -> Log.d("userInfo", error.getMessage()))
+                error -> {
+                    try {
+                        Log.d("userInfo", error.getMessage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                })
         {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {

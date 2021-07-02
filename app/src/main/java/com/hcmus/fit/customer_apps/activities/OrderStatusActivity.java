@@ -152,6 +152,8 @@ public class OrderStatusActivity extends AppCompatActivity {
             setStatusShipping();
         } else if (this.orderModel.getStatus() == 5) {
             setStatusArrived();
+        } else {
+            setStatusProcessOrder();
         }
     }
 

@@ -68,4 +68,6 @@
     <string name="notify_no_fee_ship">Fee ship has not loaded</string>
     <string name="app_name">Flash Food</string>
     <string name="review">Review</string>
+    <string name="merchant_partner">Merchant partner</string>
+    <string name="send_complain">Send complain</string>
 </resources>

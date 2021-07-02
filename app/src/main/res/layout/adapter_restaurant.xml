@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="130dp"
-    android:layout_height="160dp"
+    android:layout_height="145dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="10dp"
     android:layout_marginHorizontal="5dp">
@@ -22,6 +22,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_opening"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@color/green_light"
+                android:layout_margin="3dp"
+                android:elevation="5dp"/>
             <ImageView
                 android:id="@+id/iv_avatar_restaurant"
                 android:layout_width="130dp"
@@ -40,20 +47,6 @@
                 android:textColor="@color/black"
                 android:maxLines="2"
                 android:fontFamily="@font/roboto_regular"/>
-
-            <TextView
-                android:id="@+id/tv_big_sale"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_avatar_restaurant"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginTop="31dp"
-                android:padding="2dp"
-                android:text="Big Sale"
-                android:textSize="12sp"
-                android:textColor="@color/red_500"
-                android:fontFamily="@font/roboto_regular"
-                android:background="@drawable/bg_sale"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

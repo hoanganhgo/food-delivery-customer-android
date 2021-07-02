@@ -1,6 +1,7 @@
 package com.hcmus.fit.customer_apps.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import com.hcmus.fit.customer_apps.models.Restaurant;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RestaurantVAdapter extends BaseAdapter {
 
@@ -46,15 +49,16 @@ public class RestaurantVAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.adapter_restaurant_vertical, null);
             holder = new MyViewHolder();
+            holder.ivOpening = convertView.findViewById(R.id.iv_opening);
             holder.ivAvatar = convertView.findViewById(R.id.iv_avatar_restaurant);
             holder.tvName = convertView.findViewById(R.id.tv_restaurant_name);
-            holder.tvSale = convertView.findViewById(R.id.tv_big_sale);
             convertView.setTag(holder);
         } else {
             holder = (MyViewHolder) convertView.getTag();
         }
 
         Restaurant restaurant = restaurantList.get(position);
+        holder.ivOpening.setColorFilter(restaurant.isOpening() ? Color.GREEN : Color.RED);
         holder.tvName.setText(restaurant.getName());
         Picasso.with(convertView.getContext()).load(restaurant.getAvatar()).into(holder.ivAvatar);
 
@@ -62,8 +66,8 @@ public class RestaurantVAdapter extends BaseAdapter {
     }
 
     static class MyViewHolder {
+        CircleImageView ivOpening;
         ImageView ivAvatar;
         TextView tvName;
-        TextView tvSale;
     }
 }

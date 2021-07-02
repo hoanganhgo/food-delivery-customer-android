@@ -66,6 +66,7 @@ public class SearchActivity extends AppCompatActivity {
         lvSearch.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent(this, MerchantActivity.class);
             intent.putExtra("id", restaurants.get(position).getId());
+            intent.putExtra("opening", restaurants.get(position).isOpening());
             startActivity(intent);
         });
 
