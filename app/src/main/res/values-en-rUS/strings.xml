@@ -15,7 +15,7 @@
     <string name="confirm">Confirm</string>
     <string name="notify_phone_number">Phone number must be 10 characters</string>
     <string name="home">Home</string>
-    <string name="bill">Bill</string>
+    <string name="history">History</string>
     <string name="order">Order</string>
     <string name="notifications">Notification</string>
     <string name="setting">Setting</string>

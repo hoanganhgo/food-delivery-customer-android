@@ -9,7 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hcmus.fit.customer_apps.R;
+import com.hcmus.fit.customer_apps.models.OrderModel;
 import com.hcmus.fit.customer_apps.models.UserInfo;
+import com.hcmus.fit.customer_apps.utils.AppUtil;
+import com.squareup.picasso.Picasso;
 
 public class HistoryAdapter extends BaseAdapter {
     private final LayoutInflater layoutInflater;
@@ -43,12 +46,19 @@ public class HistoryAdapter extends BaseAdapter {
             holder.tvOrderDate = convertView.findViewById(R.id.tv_order_date);
             holder.ivAvatarRestaurant = convertView.findViewById(R.id.iv_avatar_restaurant);
             holder.tvMerchantName = convertView.findViewById(R.id.tv_merchant_name);
-            holder.tvMerchantAddress = convertView.findViewById(R.id.tv_merchant_address);
+            //holder.tvMerchantAddress = convertView.findViewById(R.id.tv_merchant_address);
             holder.tvOrderPrice = convertView.findViewById(R.id.tv_order_price);
             convertView.setTag(holder);
         } else {
             holder = (MyViewHolder) convertView.getTag();
         }
+
+        OrderModel order = UserInfo.getInstance().getHistory().get(position);
+        holder.tvOrderId.setText("#" + order.getId());
+        holder.tvOrderDate.setText(AppUtil.getDateString(order.getCalendar()));
+        Picasso.with(convertView.getContext()).load(order.getAvatarRestaurant()).into(holder.ivAvatarRestaurant);
+        holder.tvMerchantName.setText(order.getRestaurantName());
+        holder.tvOrderPrice.setText(AppUtil.convertCurrency(order.getTotal()));
 
         return convertView;
     }
@@ -58,7 +68,7 @@ public class HistoryAdapter extends BaseAdapter {
         TextView tvOrderDate;
         ImageView ivAvatarRestaurant;
         TextView tvMerchantName;
-        TextView tvMerchantAddress;
+        //TextView tvMerchantAddress;
         TextView tvOrderPrice;
     }
 }

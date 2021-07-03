@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/navigation_bill"
         android:name="com.hcmus.fit.customer_apps.ui.BillFragment"
-        android:label="@string/bill"
+        android:label="@string/history"
         tools:layout="@layout/fragment_bill" />
 
     <fragment

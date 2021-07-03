@@ -3,6 +3,7 @@ package com.hcmus.fit.customer_apps.networks;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.BaseAdapter;
 
 import androidx.annotation.Nullable;
 
@@ -16,12 +17,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.hcmus.fit.customer_apps.MainActivity;
 import com.hcmus.fit.customer_apps.activities.OTPLoginActivity;
 import com.hcmus.fit.customer_apps.activities.PhoneLoginActivity;
+import com.hcmus.fit.customer_apps.adapters.HistoryAdapter;
 import com.hcmus.fit.customer_apps.contants.API;
+import com.hcmus.fit.customer_apps.models.OrderModel;
 import com.hcmus.fit.customer_apps.models.UserInfo;
+import com.hcmus.fit.customer_apps.utils.AppUtil;
 import com.hcmus.fit.customer_apps.utils.JWTUtils;
 import com.hcmus.fit.customer_apps.utils.QueryUtil;
 import com.hcmus.fit.customer_apps.utils.StorageUtil;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -289,5 +294,66 @@ public class SignInNetwork {
 
         queue.add(req);
     }
+
+    public static void getOrderHistory(Context context, BaseAdapter historyAdapter) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        StringRequest req = new StringRequest(Request.Method.GET, API.GET_HISTORY,
+                response -> {
+                    Log.d("history", response);
+                    JSONObject json = null;
+                    try {
+                        json = new JSONObject(response);
+                        int error = json.getInt("errorCode");
+
+                        if (error == 0) {
+                            JSONArray data = json.getJSONArray("data");
+
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject orderJson = data.getJSONObject(i);
+                                JSONObject merchantJson = orderJson.getJSONObject("Restaurant");
+                                String merchantName = merchantJson.getString("Name");
+                                String merchantAvatar = merchantJson.getString("Avatar");
+                                int total = orderJson.getInt("Total");
+                                String id = orderJson.getString("id");
+                                String createAt = orderJson.getString("CreatedAt");
+
+                                OrderModel orderModel = new OrderModel(id);
+                                orderModel.setRestaurantName(merchantName);
+                                orderModel.setAvatarRestaurant(merchantAvatar);
+                                orderModel.setTotal(total);
+                                orderModel.setCalendar(AppUtil.parseCalendar(createAt));
+
+                                UserInfo.getInstance().getHistory().add(orderModel);
+                            }
+
+                            historyAdapter.notifyDataSetChanged();
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                },
+                error -> {
+                    try {
+                        Log.d("history", error.getMessage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("Authorization", "Bearer " + UserInfo.getInstance().getToken());
+                return params;
+            }
+        };
+
+        queue.add(req);
+    }
+
 
 }

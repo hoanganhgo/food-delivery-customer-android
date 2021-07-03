@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.hcmus.fit.customer_apps.R;
 import com.hcmus.fit.customer_apps.adapters.HistoryAdapter;
+import com.hcmus.fit.customer_apps.networks.SignInNetwork;
 
 public class BillFragment extends Fragment {
 
@@ -35,6 +36,7 @@ public class BillFragment extends Fragment {
         historyAdapter = new HistoryAdapter(getContext());
         lvHistory.setAdapter(historyAdapter);
 
+        SignInNetwork.getOrderHistory(getContext(), historyAdapter);
         return root;
     }
 }

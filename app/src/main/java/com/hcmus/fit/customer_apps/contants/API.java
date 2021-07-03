@@ -27,5 +27,5 @@ public class API {
     public static final String REVIEW_SHIPPER = SERVER + "/orders/{orderId}/shipperreviews/raw";
     public static final String REVIEW_MERCHANT = SERVER + "/orders/{orderId}/restaurantreviews/raw";
     public static final String GET_RESTAURANT_REVIEW = SERVER + "/restaurants/{restaurantID}/reviews";
-    public static final String redirectUrl = SERVER_SOCKET + "/callback-zalopay";
+    public static final String GET_HISTORY = SERVER + "/orders";
 }

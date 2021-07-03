@@ -21,12 +21,7 @@ public class UserInfo {
     private final Cart cart = new Cart();
 
     private UserInfo() {
-        OrderModel orderModel = new OrderModel("98087234");
-        history.add(orderModel);
-        history.add(orderModel);
-        history.add(orderModel);
-        history.add(orderModel);
-        history.add(orderModel);
+
     }
 
     public static UserInfo getInstance() {
