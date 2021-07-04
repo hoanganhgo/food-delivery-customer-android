@@ -70,4 +70,5 @@
     <string name="review">Review</string>
     <string name="merchant_partner">Merchant partner</string>
     <string name="send_complain">Send complain</string>
+    <string name="notify_exit">Press back again to exit</string>
 </resources>

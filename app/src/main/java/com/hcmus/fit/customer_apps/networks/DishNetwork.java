@@ -135,7 +135,6 @@ public class DishNetwork {
                                 String zpTranstoken = paymentJson.getString("zp_trans_token");
 
                                 // Gọi hàm thanh toán
-                                //Utils.showZaloPayOnPlayStore(context);
                                 ZaloPaySDK.getInstance().payOrder(context, zpTranstoken, "", new MyZaloPayListener());
                             }
                         }

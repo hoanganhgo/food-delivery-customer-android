@@ -1,6 +1,7 @@
 package com.hcmus.fit.customer_apps;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -9,11 +10,13 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.hcmus.fit.customer_apps.contants.Constant;
 import com.hcmus.fit.customer_apps.networks.MySocket;
 import com.hcmus.fit.customer_apps.networks.SignInNetwork;
 import com.hcmus.fit.customer_apps.utils.NotifyUtil;
 
 public class MainActivity extends AppCompatActivity {
+    private long pressBackTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,4 +37,13 @@ public class MainActivity extends AppCompatActivity {
         NotifyUtil.init(this);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() - pressBackTime > Constant.TIME_EXIT) {
+            Toast.makeText(this, getResources().getString(R.string.notify_exit), Toast.LENGTH_SHORT).show();
+            pressBackTime = System.currentTimeMillis();
+        } else {
+            finishAffinity();
+        }
+    }
 }

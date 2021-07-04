@@ -70,4 +70,5 @@
     <string name="review">Đánh giá</string>
     <string name="merchant_partner">Quán đối tác</string>
     <string name="send_complain">Gửi khiếu nại</string>
+    <string name="notify_exit">Nhấn trở về lần nữa để thoát</string>
 </resources>
