@@ -22,4 +22,11 @@ public class StorageUtil {
         SharedPreferences sharedPreferences = getStore(context);
         return sharedPreferences.getString(key, null);
     }
+
+    public static void deleteKey(Context context, String key) {
+        SharedPreferences sharedPreferences = getStore(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(key);
+        editor.apply();
+    }
 }

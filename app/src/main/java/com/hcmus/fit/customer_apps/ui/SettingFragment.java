@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.hcmus.fit.customer_apps.R;
 import com.hcmus.fit.customer_apps.models.UserInfo;
+import com.hcmus.fit.customer_apps.utils.StorageUtil;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -74,6 +75,7 @@ public class SettingFragment extends Fragment {
                     .addOnCompleteListener(getActivity(), (OnCompleteListener<Void>) task -> {
                         Log.d("google", "Sign out GG success");
                         UserInfo.getInstance().clear();
+                        StorageUtil.deleteKey(getContext(), StorageUtil.TOKEN_KEY);
                         getActivity().finish();
                         Toast.makeText(getActivity(), R.string.notify_sign_out,Toast.LENGTH_LONG).show();
                     });

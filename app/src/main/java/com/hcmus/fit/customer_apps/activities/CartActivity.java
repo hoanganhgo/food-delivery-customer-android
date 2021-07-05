@@ -1,19 +1,14 @@
 package com.hcmus.fit.customer_apps.activities;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +28,6 @@ import java.util.List;
 import java.util.Locale;
 
 import vn.zalopay.sdk.Environment;
-import vn.zalopay.sdk.Utils;
 import vn.zalopay.sdk.ZaloPaySDK;
 
 public class CartActivity extends AppCompatActivity {
@@ -164,12 +158,6 @@ public class CartActivity extends AppCompatActivity {
         super.onBackPressed();
         UserInfo.getInstance().getCart().removeDishOrderEmpty();
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        ZaloPaySDK.getInstance().onResult(data);
-//    }
 
     @Override
     public void onNewIntent(Intent intent) {

@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.hcmus.fit.customer_apps.R;
 import com.hcmus.fit.customer_apps.models.NotifyManager;
 import com.hcmus.fit.customer_apps.models.NotifyModel;
-import com.hcmus.fit.customer_apps.models.UserInfo;
 import com.squareup.picasso.Picasso;
 
 public class NotificationAdapter extends BaseAdapter {

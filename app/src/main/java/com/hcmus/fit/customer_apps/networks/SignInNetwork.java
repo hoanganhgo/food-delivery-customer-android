@@ -17,7 +17,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.hcmus.fit.customer_apps.MainActivity;
 import com.hcmus.fit.customer_apps.activities.OTPLoginActivity;
 import com.hcmus.fit.customer_apps.activities.PhoneLoginActivity;
-import com.hcmus.fit.customer_apps.adapters.HistoryAdapter;
 import com.hcmus.fit.customer_apps.contants.API;
 import com.hcmus.fit.customer_apps.models.OrderModel;
 import com.hcmus.fit.customer_apps.models.UserInfo;

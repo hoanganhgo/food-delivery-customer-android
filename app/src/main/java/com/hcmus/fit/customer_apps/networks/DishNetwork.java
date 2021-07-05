@@ -32,8 +32,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import vn.zalopay.sdk.Environment;
-import vn.zalopay.sdk.Utils;
 import vn.zalopay.sdk.ZaloPaySDK;
 
 public class DishNetwork {

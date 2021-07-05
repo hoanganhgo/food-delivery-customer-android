@@ -35,7 +35,7 @@ public class RestaurantNetwork {
         RequestQueue queue = Volley.newRequestQueue(context);
         StringRequest req = new StringRequest(Request.Method.GET, API.GET_RESTAURANTS,
                 response -> {
-                    //Log.d("restaurant", response.toString());
+                    Log.d("restaurant", response.toString());
                     try {
                         JSONObject json = new JSONObject(response);
                         JSONArray listRestaurant = json.getJSONArray("data");
